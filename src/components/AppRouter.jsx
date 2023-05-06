@@ -1,17 +1,13 @@
 import {Route, Routes} from "react-router-dom";
 import NotFound from "./pages/error/NotFound";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
 
 const AppRouter = () => {
     return (
         <Routes>
-            {/*<Route path="/" element={<Users/>} exact={true}/>*/}
-            {/*<Route path="/users" element={<Users/>} exact={true}/>*/}
-            {/*<Route path="/users/:id" element={<UserItem/>} exact={true}/>*/}
-            {/*<Route path="/deposits" element={<Deposits/>} exact={true}/>*/}
-            {/*<Route path="/bank-fund-account" element={<BankFundAccount/>} exact={true}/>*/}
-            {/*<Route path="/create-deposit" element={<CreateDeposit/>} exact={true}/>*/}
-            {/*<Route path="/sign-up" element={<SignUp/>} exact={true}/>*/}
-            {/*<Route path="/users/edit/:id" element={<EditUser/>} exact={true}/>*/}
+            <Route path="/auth/sign-up" element={<SignUp/>} exact={true}/>
+            <Route path="/auth/login" element={<Login/>} exact={true}/>
             <Route path="*" element={<NotFound/>} exact={true}/>
         </Routes>
     );
