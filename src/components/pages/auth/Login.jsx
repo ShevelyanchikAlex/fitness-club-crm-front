@@ -13,8 +13,8 @@ const Login = () => {
     const navigate = useNavigate();
     const cookies = new Cookies();
 
+    const ADMIN_ROLE = 'ADMIN';
     const [showAlert, setShowAlert] = useState(false);
-
     const [initialValue] = useState({
         email: '',
         password: '',
@@ -46,6 +46,18 @@ const Login = () => {
         AuthService.login(authenticationRequest)
             .then(response => {
                 console.log("success")
+                // localStorage.setItem('user-email', response.data.email);
+                // cookies.set("token", response.data.token,
+                //     {
+                //         path: "/",
+                //         sameSite: "strict",
+                //         maxAge: 604800
+                //     });
+                // UserService.getUserByEmail(response.data.email)
+                //     .then(response => {
+                //         localStorage.setItem('user-role', response.data.role);
+                //         response.data.role === ADMIN_ROLE ? navigate('/admin/certificates') : navigate('/certificates');
+                //     });
             })
             .catch(ex => {
                 setShowAlert(true)
