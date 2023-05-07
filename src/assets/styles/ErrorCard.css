@@ -1,22 +1,22 @@
-.not-found-container {
+.error-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 600px;
+    width: 600px !important;
     background: white;
     border-radius: 10px;
     box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
 
-.not-found-header {
+.error-header {
     text-align: center;
     padding: 0 0 20px 0;
     border-bottom: 1px solid silver;
     color: #2691d9;
 }
 
-.not-found-image {
+.error-image {
     align-items: center;
     justify-items: center;
     width: 400px;
@@ -24,37 +24,19 @@
     padding: 0 17%;
 }
 
-.not-found-container h3 {
+.error-container h3 {
     text-align: center;
     padding: 0 50px;
     color: #8c8a8a;
 }
 
-.back-home-button {
+#back-home-button {
     width: 50%;
     height: 40px;
     margin-left: 25%;
     margin-right: 25%;
     margin-bottom: 3%;
-    border: 1px solid;
-    background: #2691d9;
-    color: #e9f4fb;
     border-radius: 10px;
-    font-size: 1.2rem;
-    font-weight: 550;
-    cursor: pointer;
-    outline: none;
-}
-
-.back-home-button:hover {
-    opacity: 0.9;
-    color: #2691d9;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    transition: .5s;
-}
-
-.back-home-link {
-    border: none;
+    background: #2196f3;
     color: #e9f4fb;
-    text-decoration: none;
 }
