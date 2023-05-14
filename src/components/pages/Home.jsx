@@ -11,8 +11,10 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import HomePageBackground from '../../assets/images/home-page-background.jpg';
 import '../../assets/styles/Home.css';
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
 
     const fitnessClubFeatures =
         [
@@ -60,7 +62,7 @@ const Home = () => {
             <Typography variant="h5" sx={{mb: 4}}>
                 Our Trainers are always ready to help and do everything so that You reach your fitness goal.
             </Typography>
-            <Button variant={'outlined'} id={'welcome-box-button'} sx={{px: 6}}>
+            <Button variant={'outlined'} id={'welcome-box-button'} sx={{px: 6}} onClick={() => navigate('/contacts')}>
                 Visit Us
             </Button>
         </Box>

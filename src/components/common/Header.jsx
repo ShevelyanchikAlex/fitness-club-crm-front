@@ -11,22 +11,18 @@ import {
     MenuItem,
     Select,
 } from "@mui/material";
-import AuthService from "../../service/AuthService";
 import AccountMenu from "./AccountMenu";
 
 const Header = () => {
     const navigate = useNavigate();
 
+    const ADMIN_ROLE = 'ADMIN';
+    const USER_ROLE = 'USER';
+    const TRAINER_ROLE = 'TRAINER';
     const email = localStorage.getItem("user-email");
+    const role = localStorage.getItem("user-role");
     const handleLoginButton = () => navigate('/auth/login');
     const handleSignUpButton = () => navigate('/auth/sign-up');
-    const handleLogoutButton = () => {
-        AuthService.logout()
-            .then(() => {
-                navigate('/home');
-            })
-            .catch(e => console.log(e.response.status));
-    }
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -53,18 +49,30 @@ const Header = () => {
                             onChange={() => {
                             }}
                         >
-                            <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
-                            <MenuItem onClick={() => navigate('/services')}>Services</MenuItem>
-                            <MenuItem onClick={() => {
-                            }}>Trainers</MenuItem>
-                            <MenuItem onClick={() => {
-                            }}>About Us</MenuItem>
+                            {role && role === ADMIN_ROLE &&
+                                <MenuItem onClick={() => navigate('/admin/users')}>Users</MenuItem>}
+                            {role && role === ADMIN_ROLE &&
+                                <MenuItem onClick={() => navigate('/admin/services')}>Services</MenuItem>}
+                            {role && role === ADMIN_ROLE &&
+                                <MenuItem onClick={() => navigate('/admin/trainers')}>Trainers</MenuItem>}
+                            {role && role === ADMIN_ROLE &&
+                                <MenuItem onClick={() => navigate('/services/create')}>New Service</MenuItem>}
+                            {role && role === ADMIN_ROLE &&
+                                <MenuItem onClick={() => navigate('/trainers/create')}>New Trainer</MenuItem>}
+                            {role && role === USER_ROLE && <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>}
+
+                            {role && role === USER_ROLE &&
+                                <MenuItem onClick={() => navigate('/services')}>Services</MenuItem>}
+                            {role && role === USER_ROLE &&
+                                <MenuItem onClick={() => navigate('/trainers')}>Trainers</MenuItem>}
+                            {role && role === USER_ROLE &&
+                                <MenuItem onClick={() => navigate('/contacts')}>About Us</MenuItem>}
                             <MenuItem value="Pages" sx={{display: 'none'}}>Pages</MenuItem>
                         </Select>
                     </FormControl>
 
                     {email
-                        ? <AccountMenu email={email}/>
+                        ? <AccountMenu email={email} role={role}/>
                         : <Box>
                             <Button sx={{color: 'inherit', fontSize: 21, fontStyle: 'normal', textTransform: 'none'}}
                                     onClick={handleLoginButton}>
