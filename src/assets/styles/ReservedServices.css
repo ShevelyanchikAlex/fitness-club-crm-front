@@ -1,0 +1,36 @@
+.reserved-service-box {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+#reserved-service-box-header {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 7%;
+    margin-bottom: 2%;
+}
+
+#reserved-service-items-container {
+    margin: 1%;
+}
+
+.reserved-service-item {
+    padding-top: 1%;
+    min-height: 250px;
+    margin: 1% !important;
+    width: 45%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+
+#reserved-service-card-field-row {
+    margin-top: 1%;
+    margin-left: 3%;
+}
+
+#reserved-service-card-field-row-item {
+    text-align: start;
+    min-width: 25%;
+}

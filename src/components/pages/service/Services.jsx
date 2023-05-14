@@ -8,6 +8,7 @@ import ServiceInfo from "./ServiceInfo";
 import ServiceService from "../../../service/ServiceService";
 import CircularIndeterminate from "../../common/CircularProgress";
 import ReservationServiceDialog from "./ReservationServiceDialog";
+import EmptyListCard from "../error/EmptyListCard";
 
 const Services = () => {
 
@@ -65,7 +66,10 @@ const Services = () => {
                             }}>More Info</Button>
                         </Grid>
                         <Grid item xs={6}>
-                            <Button id={'reserve-button'} onClick={() => setIsOpenReserveService(true)}>Reserve</Button>
+                            <Button id={'reserve-button'} onClick={() => {
+                                setSelectedService(props.service);
+                                setIsOpenReserveService(true);
+                            }}>Reserve</Button>
                         </Grid>
                     </Grid>
                     : <Button id={'more-info-button'} onClick={() => {
@@ -121,10 +125,13 @@ const Services = () => {
     return (
         isLoading
             ? <CircularIndeterminate/>
-            : <Box marginTop={'5%'}>
-                <ServiceBox/>
-                <PaginationElement count={servicesCount} page={page + PAGE_OFFSET} setPage={setPage}/>
-            </Box>
+            :
+            (services.length === 0
+                ? <EmptyListCard/>
+                : <Box marginTop={'5%'}>
+                    <ServiceBox/>
+                    <PaginationElement count={servicesCount} page={page + PAGE_OFFSET} setPage={setPage}/>
+                </Box>)
     )
 };
 
