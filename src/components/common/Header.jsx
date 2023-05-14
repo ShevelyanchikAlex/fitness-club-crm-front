@@ -56,9 +56,9 @@ const Header = () => {
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/trainers')}>Trainers</MenuItem>}
                             {role && role === ADMIN_ROLE &&
-                                <MenuItem onClick={() => navigate('/services/create')}>New Service</MenuItem>}
+                                <MenuItem onClick={() => navigate('/admin/services/create')}>New Service</MenuItem>}
                             {role && role === ADMIN_ROLE &&
-                                <MenuItem onClick={() => navigate('/trainers/create')}>New Trainer</MenuItem>}
+                                <MenuItem onClick={() => navigate('/admin/trainers/create')}>New Trainer</MenuItem>}
                             {role && role === USER_ROLE && <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>}
 
                             {role && role === USER_ROLE &&

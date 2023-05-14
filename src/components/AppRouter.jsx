@@ -11,6 +11,8 @@ import ClientReservedServices from "./pages/service/ClientReservedServices";
 import UsersTable from "./pages/admin/UsersTable";
 import TrainersTable from "./pages/admin/TrainersTable";
 import ServicesTable from "./pages/admin/ServicesTable";
+import ServiceCreation from "./pages/admin/ServiceCreation";
+import TrainerCreation from "./pages/admin/TrainerCreation";
 
 const AppRouter = () => {
     return (
@@ -26,6 +28,8 @@ const AppRouter = () => {
             <Route path="/admin/users" element={<UsersTable/>} exact={true}/>
             <Route path="/admin/trainers" element={<TrainersTable/>} exact={true}/>
             <Route path="/admin/services" element={<ServicesTable/>} exact={true}/>
+            <Route path="/admin/services/create" element={<ServiceCreation/>} exact={true}/>
+            <Route path="/admin/trainers/create" element={<TrainerCreation/>} exact={true}/>
             <Route path="*" element={<NotFound/>} exact={true}/>
         </Routes>
     );

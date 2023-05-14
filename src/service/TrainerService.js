@@ -17,8 +17,16 @@ class TrainerService {
         );
     };
 
-    static async updateTrainer(userDto) {
-        return await axios.patch(`${API_URL}/update`, userDto, {
+    static async saveTrainer(trainerDro) {
+        return await axios.post(`${API_URL}/create`, trainerDro, {
+            headers: {
+                'Authorization': cookies.get("token"),
+            }
+        });
+    }
+
+    static async updateTrainer(trainerDto) {
+        return await axios.patch(`${API_URL}/update`, trainerDto, {
             headers: {
                 'Authorization': cookies.get("token"),
             }

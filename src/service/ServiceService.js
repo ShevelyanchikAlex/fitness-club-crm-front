@@ -17,8 +17,16 @@ class ServiceService {
         );
     };
 
-    static async updateService(userDto) {
-        return await axios.patch(`${API_URL}/update`, userDto, {
+    static async saveService(serviceDto) {
+        return await axios.post(`${API_URL}/create`, serviceDto, {
+            headers: {
+                'Authorization': cookies.get("token"),
+            }
+        });
+    }
+
+    static async updateService(serviceDto) {
+        return await axios.patch(`${API_URL}/update`, serviceDto, {
             headers: {
                 'Authorization': cookies.get("token"),
             }
