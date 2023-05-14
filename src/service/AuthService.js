@@ -1,8 +1,10 @@
 import axios from "axios";
+import {Cookies} from "react-cookie";
 
 const API_URL = "http://localhost:8765/api/v1/auth-service/auth";
+const cookies = new Cookies();
 
-class UserService {
+class AuthService {
 
     static async login(authenticationRequest) {
         return await axios.post(`${API_URL}/login`, authenticationRequest);
@@ -13,11 +15,11 @@ class UserService {
     };
 
     static async logout() {
-        // cookies.remove("token", {path: '/'});
+        cookies.remove("token", {path: '/'});
         localStorage.removeItem("user-email");
         localStorage.removeItem("user-role");
     }
 
 }
 
-export default UserService;
+export default AuthService;
