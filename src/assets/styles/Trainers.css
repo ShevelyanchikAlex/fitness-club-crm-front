@@ -1,0 +1,42 @@
+.trainer-box {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+#trainer-box-header {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 7%;
+    margin-bottom: 2%;
+}
+
+#trainer-box-subheader {
+    color: #8c8a8a;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+#trainer-items-container {
+    margin: 1%;
+}
+
+.trainer-item {
+    padding-top: 1%;
+    min-height: 250px;
+    margin: 1% !important;
+    width: 30%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.trainer-item-header {
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+#trainer-item-body {
+    margin-left: 5%;
+    margin-right: 5%;
+    min-height: 50%;
+}
