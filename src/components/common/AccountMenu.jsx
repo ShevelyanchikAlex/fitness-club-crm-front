@@ -3,10 +3,11 @@ import '../../assets/styles/Footer.css'
 import {Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import {Logout, PersonAdd, Settings} from "@mui/icons-material";
+import HistoryIcon from '@mui/icons-material/History';
 import AuthService from "../../service/AuthService";
 import {useNavigate} from "react-router-dom";
 
-const AccountMenu = ({email}) => {
+const AccountMenu = ({email, role}) => {
     const navigate = useNavigate();
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -22,6 +23,10 @@ const AccountMenu = ({email}) => {
 
     const handleProfileClick = () => {
         navigate('/user/profile');
+    }
+
+    const handleReservedServicesClick = () => {
+        navigate('/user/services');
     }
 
     const handleLogoutButton = () => {
@@ -76,15 +81,17 @@ const AccountMenu = ({email}) => {
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
                 <MenuItem onClick={handleProfileClick}>
-                    <Avatar/> Profile
+                    <Avatar/> Profile {email}
                 </MenuItem>
                 <Divider/>
-                <MenuItem onClick={handleAccountMenuClose}>
-                    <ListItemIcon>
-                        <PersonAdd fontSize="small"/>
-                    </ListItemIcon>
-                    Add another account
-                </MenuItem>
+                {role && role === 'USER' &&
+                    <MenuItem onClick={handleReservedServicesClick}>
+                        <ListItemIcon>
+                            <HistoryIcon fontSize="small"/>
+                        </ListItemIcon>
+                        Reserved Services
+                    </MenuItem>
+                }
                 <MenuItem onClick={handleLogoutButton}>
                     <ListItemIcon>
                         <Logout fontSize="small"/>
