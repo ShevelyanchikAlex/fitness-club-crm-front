@@ -15,7 +15,7 @@ const SignUp = () => {
     const [severityType, setSeverityType] = useState('error');
     const [alertText, setAlertText] = useState('');
 
-    const [initialValue] = useState({
+    const [userInitialValue] = useState({
         name: '',
         surname: '',
         email: '',
@@ -44,7 +44,7 @@ const SignUp = () => {
     })
 
     const formik = useFormik({
-        initialValues: initialValue,
+        initialValues: userInitialValue,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             handleSubmit();
@@ -80,7 +80,6 @@ const SignUp = () => {
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-
 
     return (
         <Container>
@@ -164,8 +163,9 @@ const SignUp = () => {
                     <Grid container className={"button-grid"}>
                         <Grid xs={6}>
                             <Button
-                                className={"submit-button"}
+                                className={"back-button"}
                                 variant='outlined'
+                                sx={{textTransform: 'none'}}
                                 onClick={() => navigate(-1)}
                             >
                                 Back
@@ -176,6 +176,7 @@ const SignUp = () => {
                                 className={"submit-button"}
                                 variant='contained'
                                 type="submit"
+                                sx={{textTransform: 'none'}}
                             >
                                 Sign Up
                             </Button>

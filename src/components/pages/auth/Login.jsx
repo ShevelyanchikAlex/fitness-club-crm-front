@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import {Cookies} from "react-cookie"
 import '../../../assets/styles/FormCard.css';
 import AuthService from "../../../service/AuthService";
+import UserService from "../../../service/UserService";
 
 
 const Login = () => {
@@ -45,19 +46,18 @@ const Login = () => {
 
         AuthService.login(authenticationRequest)
             .then(response => {
-                console.log("success")
-                // localStorage.setItem('user-email', response.data.email);
-                // cookies.set("token", response.data.token,
-                //     {
-                //         path: "/",
-                //         sameSite: "strict",
-                //         maxAge: 604800
-                //     });
-                // UserService.getUserByEmail(response.data.email)
-                //     .then(response => {
-                //         localStorage.setItem('user-role', response.data.role);
-                //         response.data.role === ADMIN_ROLE ? navigate('/admin/certificates') : navigate('/certificates');
-                //     });
+                localStorage.setItem('user-email', response.data.email);
+                cookies.set("token", response.data.token,
+                    {
+                        path: "/",
+                        sameSite: "strict",
+                        maxAge: 604800
+                    });
+                UserService.getUserByEmail(response.data.email)
+                    .then(response => {
+                        localStorage.setItem('user-role', response.data.role);
+                        response.data.role === ADMIN_ROLE ? navigate('/user/profile') : navigate('/home');
+                    });
             })
             .catch(ex => {
                 setShowAlert(true)
@@ -102,6 +102,7 @@ const Login = () => {
                             className={"submit-button"}
                             variant='contained'
                             type="submit"
+                            sx={{textTransform: 'none'}}
                         >
                             Login
                         </Button>
