@@ -13,8 +13,13 @@ import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import ServiceService from "../../../service/ServiceService";
+import Forbidden from "../error/Forbidden";
 
 const ServicesTable = () => {
+    const navigate = useNavigate();
+
+    const ADMIN_ROLE = 'ADMIN';
+    const [role, setRole] = useState();
     const [services, setServices] = useState([]);
     const [selectedServiceId, setSelectedServiceId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -22,10 +27,11 @@ const ServicesTable = () => {
     const [size, setSize] = useState(10);
     const [countOfServices, setCountOfServices] = useState(10);
     const rowsPerPage = [5, 10, 20];
-    const navigate = useNavigate();
+
 
     useEffect(() => {
         setIsLoading(true);
+        setRole(localStorage.getItem("user-role"));
         ServiceService.getAllServices(page, size)
             .then(response => {
                 setServices(response.data);
@@ -48,60 +54,66 @@ const ServicesTable = () => {
     }
 
     return (isLoading ? <CircularProgress/> :
-        ((services.length === 0) ? <EmptyListCard/> :
-                <div>
-                    <TableContainer sx={{marginY: 10}}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Id</TableCell>
-                                    <TableCell align="right">Name</TableCell>
-                                    <TableCell align="right">Description</TableCell>
-                                    <TableCell align="right">Price</TableCell>
-                                    <TableCell align="right">Edit</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {services.map(service => (
-                                    <TableRow key={service.id} hover role="checkbox" tabIndex={-1}>
-                                        <TableCell component="th" scope="row">
-                                            {service.id}
-                                        </TableCell>
-                                        <TableCell align="right">{service.name}</TableCell>
-                                        <TableCell align="right">
-                                            {service.description.length <= 60
-                                                ? service.description
-                                                : (service.description.substr(0, 60) + "...")
-                                            }
-                                        </TableCell>
-                                        <TableCell align="right">{service.price + ' $'}</TableCell>
-                                        <TableCell align="right">
-                                            <Button
-                                                onClick={() => {
-                                                }}
-                                                variant='contained'
-                                                sx={{background: '#2196f3', color: 'white', textTransform: 'none'}}
-                                            >
-                                                Edit
-                                            </Button>
-                                        </TableCell>
+        ((role && role === ADMIN_ROLE)
+            ? ((services.length === 0) ? <EmptyListCard/> :
+                    <div>
+                        <TableContainer sx={{marginY: 10}}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Id</TableCell>
+                                        <TableCell align="right">Name</TableCell>
+                                        <TableCell align="right">Description</TableCell>
+                                        <TableCell align="right">Price</TableCell>
+                                        <TableCell align="right">Edit</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        sx={{display: "flex", justifyContent: "center", marginBottom: 10}}
-                        rowsPerPageOptions={rowsPerPage}
-                        component="div"
-                        count={countOfServices}
-                        rowsPerPage={size}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeSize}
-                    />
-                </div>
-        ));
+                                </TableHead>
+                                <TableBody>
+                                    {services.map(service => (
+                                        <TableRow key={service.id} hover role="checkbox" tabIndex={-1}>
+                                            <TableCell component="th" scope="row">
+                                                {service.id}
+                                            </TableCell>
+                                            <TableCell align="right">{service.name}</TableCell>
+                                            <TableCell align="right">
+                                                {service.description.length <= 60
+                                                    ? service.description
+                                                    : (service.description.substr(0, 60) + "...")
+                                                }
+                                            </TableCell>
+                                            <TableCell align="right">{service.price + ' $'}</TableCell>
+                                            <TableCell align="right">
+                                                <Button
+                                                    onClick={() => {
+                                                    }}
+                                                    variant='contained'
+                                                    sx={{
+                                                        background: '#2196f3',
+                                                        color: 'white',
+                                                        textTransform: 'none'
+                                                    }}
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            sx={{display: "flex", justifyContent: "center", marginBottom: 10}}
+                            rowsPerPageOptions={rowsPerPage}
+                            component="div"
+                            count={countOfServices}
+                            rowsPerPage={size}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeSize}
+                        />
+                    </div>
+            )
+            : <Forbidden/>));
 }
 
 export default ServicesTable;

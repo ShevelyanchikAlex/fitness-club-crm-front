@@ -13,8 +13,12 @@ import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import TrainerService from "../../../service/TrainerService";
+import Forbidden from "../error/Forbidden";
 
 const TrainersTable = () => {
+
+    const ADMIN_ROLE = 'ADMIN';
+    const [role, setRole] = useState();
     const [trainers, setTrainers] = useState([]);
     const [selectedTrainerId, setSelectedTrainerId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -26,6 +30,7 @@ const TrainersTable = () => {
 
     useEffect(() => {
         setIsLoading(true);
+        setRole(localStorage.getItem("user-role"));
         TrainerService.getAllTrainers(page, size)
             .then(response => {
                 setTrainers(response.data);
@@ -47,62 +52,65 @@ const TrainersTable = () => {
         setPage(0);
     }
 
-    return (isLoading ? <CircularProgress/> :
-        ((trainers.length === 0) ? <EmptyListCard/> :
-                <div>
-                    <TableContainer sx={{marginY: 10}}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Id</TableCell>
-                                    <TableCell align="right">Name</TableCell>
-                                    <TableCell align="right">Surname</TableCell>
-                                    <TableCell align="right">Email</TableCell>
-                                    <TableCell align="right">Category</TableCell>
-                                    <TableCell align="right">Kind of sport</TableCell>
-                                    <TableCell align="right">Status</TableCell>
-                                    <TableCell align="right">Edit</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {trainers.map(trainer => (
-                                    <TableRow key={trainer.id} hover role="checkbox" tabIndex={-1}>
-                                        <TableCell component="th" scope="row">
-                                            {trainer.id}
-                                        </TableCell>
-                                        <TableCell align="right">{trainer.userDto.name}</TableCell>
-                                        <TableCell align="right">{trainer.userDto.surname}</TableCell>
-                                        <TableCell align="right">{trainer.userDto.email}</TableCell>
-                                        <TableCell align="right">{trainer.category}</TableCell>
-                                        <TableCell align="right">{trainer.kindOfSport}</TableCell>
-                                        <TableCell align="right">{trainer.userDto.status}</TableCell>
-                                        <TableCell align="right">
-                                            <Button
-                                                onClick={() => {
-                                                }}
-                                                variant='contained'
-                                                sx={{background: '#2196f3', color: 'white', textTransform: 'none'}}
-                                            >
-                                                Edit
-                                            </Button>
-                                        </TableCell>
+    return (isLoading
+        ? <CircularProgress/>
+        : ((role && role === ADMIN_ROLE)
+            ? ((trainers.length === 0) ? <EmptyListCard/> :
+                    <div>
+                        <TableContainer sx={{marginY: 10}}>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Id</TableCell>
+                                        <TableCell align="right">Name</TableCell>
+                                        <TableCell align="right">Surname</TableCell>
+                                        <TableCell align="right">Email</TableCell>
+                                        <TableCell align="right">Category</TableCell>
+                                        <TableCell align="right">Kind of sport</TableCell>
+                                        <TableCell align="right">Status</TableCell>
+                                        <TableCell align="right">Edit</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        sx={{display: "flex", justifyContent: "center", marginBottom: 10}}
-                        rowsPerPageOptions={rowsPerPage}
-                        component="div"
-                        count={countOfTrainers}
-                        rowsPerPage={size}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeSize}
-                    />
-                </div>
-        ));
+                                </TableHead>
+                                <TableBody>
+                                    {trainers.map(trainer => (
+                                        <TableRow key={trainer.id} hover role="checkbox" tabIndex={-1}>
+                                            <TableCell component="th" scope="row">
+                                                {trainer.id}
+                                            </TableCell>
+                                            <TableCell align="right">{trainer.userDto.name}</TableCell>
+                                            <TableCell align="right">{trainer.userDto.surname}</TableCell>
+                                            <TableCell align="right">{trainer.userDto.email}</TableCell>
+                                            <TableCell align="right">{trainer.category}</TableCell>
+                                            <TableCell align="right">{trainer.kindOfSport}</TableCell>
+                                            <TableCell align="right">{trainer.userDto.status}</TableCell>
+                                            <TableCell align="right">
+                                                <Button
+                                                    onClick={() => {
+                                                    }}
+                                                    variant='contained'
+                                                    sx={{background: '#2196f3', color: 'white', textTransform: 'none'}}
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            sx={{display: "flex", justifyContent: "center", marginBottom: 10}}
+                            rowsPerPageOptions={rowsPerPage}
+                            component="div"
+                            count={countOfTrainers}
+                            rowsPerPage={size}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeSize}
+                        />
+                    </div>
+            )
+            : <Forbidden/>));
 }
 
 export default TrainersTable;

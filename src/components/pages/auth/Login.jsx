@@ -56,7 +56,7 @@ const Login = () => {
                 UserService.getUserByEmail(response.data.email)
                     .then(response => {
                         localStorage.setItem('user-role', response.data.role);
-                        response.data.role === ADMIN_ROLE ? navigate('/user/profile') : navigate('/home');
+                        response.data.role === ADMIN_ROLE ? navigate('/admin/users') : navigate('/home');
                     });
             })
             .catch(ex => {
