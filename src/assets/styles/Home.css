@@ -1,0 +1,65 @@
+.welcome-box {
+    height: calc(90vh - 70px);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    border-radius: 10px;
+}
+
+#welcome-box-header {
+    font-weight: bold;
+    margin-bottom: 2%;
+}
+
+
+#welcome-box-button {
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    border-color: white;
+}
+
+#welcome-box-button:hover {
+    border-color: silver;
+}
+
+
+.feature-box {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+#feature-box-header {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 4%;
+    margin-bottom: 2%;
+}
+
+#feature-items-container {
+    margin: 1%;
+}
+
+.feature-item {
+    margin: 1% !important;
+    padding: 2% 1%;
+    width: 30%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.feature-item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3%;
+}
+
+.feature-item-body {
+    margin-left: 3%;
+    margin-right: 3%;
+}

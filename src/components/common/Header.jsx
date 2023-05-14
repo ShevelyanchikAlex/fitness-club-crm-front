@@ -6,13 +6,27 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {
+    FormControl,
+    MenuItem,
+    Select,
+} from "@mui/material";
+import AuthService from "../../service/AuthService";
+import AccountMenu from "./AccountMenu";
 
 const Header = () => {
     const navigate = useNavigate();
 
+    const email = localStorage.getItem("user-email");
     const handleLoginButton = () => navigate('/auth/login');
     const handleSignUpButton = () => navigate('/auth/sign-up');
+    const handleLogoutButton = () => {
+        AuthService.logout()
+            .then(() => {
+                navigate('/home');
+            })
+            .catch(e => console.log(e.response.status));
+    }
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -22,7 +36,7 @@ const Header = () => {
                         sx={{margin: 2}}
                     />
                     <Typography variant="h6" component="div" sx={{fontSize: 22, flexGrow: 1}}>
-                        Fitness-club
+                        Fitness Club
                     </Typography>
 
                     <FormControl sx={{marginRight: 2}}>
@@ -40,8 +54,7 @@ const Header = () => {
                             }}
                         >
                             <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>
-                            <MenuItem onClick={() => {
-                            }}>Services</MenuItem>
+                            <MenuItem onClick={() => navigate('/services')}>Services</MenuItem>
                             <MenuItem onClick={() => {
                             }}>Trainers</MenuItem>
                             <MenuItem onClick={() => {
@@ -50,15 +63,19 @@ const Header = () => {
                         </Select>
                     </FormControl>
 
-                    <Button sx={{color: 'inherit', fontSize: 21, fontStyle: 'normal', textTransform: 'none'}}
-                            onClick={handleLoginButton}>
-                        Login
-                    </Button>
-                    <Button sx={{color: 'inherit', fontSize: 21, fontStyle: 'normal', textTransform: 'none'}}
-                            onClick={handleSignUpButton}>
-                        Sign Up
-                    </Button>
-
+                    {email
+                        ? <AccountMenu email={email}/>
+                        : <Box>
+                            <Button sx={{color: 'inherit', fontSize: 21, fontStyle: 'normal', textTransform: 'none'}}
+                                    onClick={handleLoginButton}>
+                                Login
+                            </Button>
+                            <Button sx={{color: 'inherit', fontSize: 21, fontStyle: 'normal', textTransform: 'none'}}
+                                    onClick={handleSignUpButton}>
+                                Sign Up
+                            </Button>
+                        </Box>
+                    }
                 </Toolbar>
             </AppBar>
         </Box>
