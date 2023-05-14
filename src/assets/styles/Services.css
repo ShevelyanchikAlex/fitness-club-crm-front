@@ -1,0 +1,142 @@
+.service-box {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+#service-box-header {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 7%;
+    margin-bottom: 2%;
+}
+
+#service-box-subheader {
+    color: #8c8a8a;
+    text-align: center;
+    margin-bottom: 2%;
+}
+
+#service-items-container {
+    margin: 1%;
+}
+
+.service-item {
+    padding-top: 1%;
+    min-height: 250px;
+    margin: 1% !important;
+    width: 30%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.service-item-header {
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+#service-item-body {
+    margin-left: 5%;
+    margin-right: 5%;
+    min-height: 50%;
+}
+
+#more-info-button {
+    margin: 2%;
+    width: 80%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    background-color: #2196f3;
+}
+
+#more-info-button:hover {
+    border-color: silver;
+}
+
+#reserve-button {
+    background-color: #51c481;
+    margin: 2%;
+    width: 80%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+}
+
+
+
+#service-info-card {
+    text-align: center;
+    border-radius: 10px;
+    width: 550px;
+    max-width: 550px;
+    max-height: 520px;
+    background: white;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.service-info-card-header {
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+    color: #2691d9;
+}
+
+.service-info-card-row {
+    margin: 3% 3%;
+}
+
+#service-info-card-field-name {
+    font-weight: bold;
+    margin-bottom: 2%;
+}
+
+
+#service-info-card-field-value {
+    margin-bottom: 5%;
+}
+
+#services-back-button {
+    margin: 2%;
+    width: 40%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    background-color: #2196f3;
+}
+
+
+#reservation-service-card {
+    text-align: center;
+    border-radius: 10px;
+    width: 550px;
+    max-width: 550px;
+    max-height: 520px;
+    background: white;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.reservation-service-header {
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+    color: #2691d9;
+}
+
+#reservation-service-back-button {
+    margin: 2%;
+    width: 80%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    background-color: #2196f3;
+}
+
+#reservation-service-reserve-button {
+    background-color: #51c481;
+    margin: 2%;
+    width: 80%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+}
