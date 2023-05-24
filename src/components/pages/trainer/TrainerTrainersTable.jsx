@@ -9,7 +9,6 @@ import {
     TablePagination,
     TableRow
 } from "@mui/material";
-import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
 import TrainerService from "../../../service/TrainerService";
 import Forbidden from "../error/Forbidden";
@@ -40,7 +39,7 @@ const TrainerTrainersTable = () => {
     useEffect(() => {
         TrainerService.getTrainersCount()
             .then(response => {
-                setCountOfTrainers(response.data)
+                setCountOfTrainers(response.data);
             })
             .catch((error) => console.log(error));
     }, [size]);

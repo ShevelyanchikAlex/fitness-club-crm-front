@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import '../../../assets/styles/UserEdit.css';
+import '../../../../assets/styles/UserEdit.css';
 import {
     Card,
     Dialog, DialogContent, List,
 } from "@mui/material";
-import '../../../assets/styles/Trainer.css';
+import '../../../../assets/styles/Trainer.css';
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import CircularIndeterminate from "../../common/CircularProgress";
-import UserService from "../../../service/UserService";
+import CircularIndeterminate from "../../../common/CircularProgress";
+import UserService from "../../../../service/UserService";
 
 const UserInfoDialog = ({isOpenUserInfo, setIsOpenUserInfo, setSelectedReservation, reservation}) => {
 

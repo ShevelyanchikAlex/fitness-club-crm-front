@@ -15,7 +15,7 @@ import Forbidden from "../error/Forbidden";
 import OrderService from "../../../service/OrderService";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import UserInfoDialog from "./UserInfoDialog";
+import UserInfoDialog from "./form/UserInfoDialog";
 import TrainerReservationStatusEditForm from "./form/TrainerReservationStatusEditForm";
 
 const TrainerReservationsTable = () => {
@@ -54,7 +54,7 @@ const TrainerReservationsTable = () => {
         if (trainerId) {
             OrderService.getOrdersCountByTrainerId(trainerId)
                 .then(response => {
-                    setCountOfReservations(Math.ceil(response.data / size))
+                    setCountOfReservations(response.data);
                 })
                 .catch((error) => console.log(error));
         }
@@ -140,7 +140,7 @@ const TrainerReservationsTable = () => {
                             sx={{display: "flex", justifyContent: "center", marginBottom: 10}}
                             rowsPerPageOptions={rowsPerPage}
                             component="div"
-                            count={countOfReservations + 1}
+                            count={countOfReservations}
                             rowsPerPage={size}
                             page={page}
                             onPageChange={handleChangePage}

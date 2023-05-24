@@ -50,8 +50,7 @@ const TrainerScheduleTable = () => {
         if(trainerId) {
             ScheduleService.getSchedulesCountByTrainerId(trainerId)
                 .then(response => {
-                    console.log(response.data)
-                    setCountOfSchedules(Math.ceil(response.data / size))
+                    setCountOfSchedules(response.data);
                 })
                 .catch((error) => console.log(error));
         }
