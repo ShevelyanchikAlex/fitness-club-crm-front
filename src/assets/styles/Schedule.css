@@ -1,0 +1,99 @@
+.schedule-box {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+#schedule-box-header {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 7%;
+    margin-bottom: 2%;
+}
+
+#schedule-box-subheader {
+    color: #8c8a8a;
+    text-align: center;
+    margin-bottom: 2%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+#schedule-items-container {
+    margin: 1%;
+}
+
+#schedule-item {
+    padding-top: 1%;
+    min-height: 320px;
+    margin: 1%;
+    width: 30%;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.schedule-item-header {
+    text-align: center;
+    margin-bottom: 3%;
+    height: 20%;
+}
+
+#schedule-item-body {
+    margin-left: 5%;
+    margin-right: 5%;
+    min-height: 50%;
+}
+
+#schedule-card-field-row {
+    margin-top: 1%;
+    margin-left: 3%;
+}
+
+#schedule-card-field-row-item {
+    text-align: start;
+    min-width: 25%;
+}
+
+#schedule-more-info-button {
+    margin: 6%;
+    width: 80%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    background-color: #2196f3;
+}
+
+#schedule-more-info-button:hover {
+    border-color: silver;
+}
+
+#single-schedule-more-info-button {
+    margin: 3%;
+    width: 50%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    background-color: #2196f3;
+}
+
+#single-schedule-more-info-button:hover {
+    border-color: silver;
+}
+
+#schedule-reserve-button {
+    background-color: #51c481;
+    margin: 6%;
+    width: 80%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+}
+
+#schedule-back-button {
+    margin: 2%;
+    width: 40%;
+    border-radius: 10px;
+    text-transform: none;
+    color: white;
+    background-color: #2196f3;
+}
