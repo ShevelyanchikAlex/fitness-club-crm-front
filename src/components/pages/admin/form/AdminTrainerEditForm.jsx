@@ -1,42 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React, {useState} from 'react';
+import {useNavigate, useLocation} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../assets/styles/FormCard.css';
-import {Alert, Card, Container, Grid, List, Snackbar, TextField} from "@mui/material";
+import '../../../../assets/styles/FormCard.css';
+import {
+    Alert,
+    Card, Container, FormControl,
+    Grid, List, Snackbar,
+    TextField
+} from "@mui/material";
 import Button from "@mui/material/Button";
-import ServiceService from "../../../service/ServiceService";
-import Forbidden from "../error/Forbidden";
+import Box from "@mui/material/Box";
+import Forbidden from "../../error/Forbidden";
+import TrainerService from "../../../../service/TrainerService";
 
-const ServiceCreation = () => {
+const AdminTrainerEditForm = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const ADMIN_ROLE = 'ADMIN';
-    const [role, setRole] = useState('GUEST');
+    const role = localStorage.getItem('user-role')
     const [alertAutoHideDuration, setAlertAutoHideDuration] = useState(5000);
     const [showAlert, setShowAlert] = useState(false);
     const [severityType, setSeverityType] = useState('error');
     const [alertText, setAlertText] = useState('');
-
-    const [serviceDtoInitialValue] = useState({
-        description: '',
-        name: '',
-        price: 0,
+    const [trainerDtoInitialValue] = useState({
+        category: location.state.category,
+        kindOfSport: location.state.kindOfSport,
     });
 
-    useEffect(() => {
-        setRole(localStorage.getItem('user-role'))
-    }, []);
-
     const validationSchema = yup.object().shape({
-        description: yup.string().required("Description is a required field").min(5).max(300),
-        name: yup.string().required("Name is a required field").min(2).max(20),
-        price: yup.number().required("Price is a required field")
-            .positive('Price should be positive number.')
+        category: yup.string().required("Category is a required field").min(5).max(30),
+        kindOfSport: yup.string().required("Kind of Sport is a required field").min(2).max(30),
     })
 
     const formik = useFormik({
-        initialValues: serviceDtoInitialValue,
+        enableReinitialize: true,
+        initialValues: trainerDtoInitialValue,
         validationSchema: validationSchema,
         onSubmit: async (values) => {
             handleSubmit();
@@ -44,18 +44,17 @@ const ServiceCreation = () => {
     });
 
     const handleSubmit = () => {
-        const handledServiceDto = {
-            description: formik.values.description,
-            name: formik.values.name,
-            price: formik.values.price
+        const handledTrainerDto = {
+            id: location.state.id,
+            category: formik.values.category,
+            kindOfSport: formik.values.kindOfSport,
+            userDto: location.state.userDto,
         };
 
-        console.log(handledServiceDto)
-
-        ServiceService.saveService(handledServiceDto)
+        TrainerService.updateTrainer(handledTrainerDto)
             .then(() => {
-                setAlertAction('success', 'Service successfully created.', 1000)
-                sleep(1000).then(() => navigate('/admin/services'));
+                setAlertAction('success', 'Trainer successfully updated.', 1000)
+                sleep(1000).then(() => navigate('/admin/trainers'));
             })
             .catch(ex => {
                 setAlertAction('error', ex.response.data, 5000)
@@ -82,42 +81,42 @@ const ServiceCreation = () => {
                 </Alert>
             </Snackbar>
             <Card id={"card"}>
-                <h1 className={"header"}>Service Creation</h1>
+                <h1 className={"header"}>Edit Trainer</h1>
                 <form onSubmit={formik.handleSubmit}>
                     <List style={{height: 300, overflow: 'auto'}}>
+                        <Box sx={{minWidth: 120, margin: 'auto'}}>
+                            <FormControl fullWidth>
+                                <TextField
+                                    margin="normal"
+                                    disabled={true}
+                                    required
+                                    fullWidth
+                                    name={"category"}
+                                    value={location.state.userDto.name + ' ' + location.state.userDto.surname}
+                                />
+                            </FormControl>
+                        </Box>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            label="Name"
-                            name={"name"}
-                            value={formik.values.name}
+                            label="Category"
+                            name={"category"}
+                            value={formik.values.category}
                             onChange={formik.handleChange}
-                            error={!!formik.errors.name}
-                            helperText={formik.errors.name}
+                            error={!!formik.errors.category}
+                            helperText={formik.errors.category}
                         />
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            label="Description"
-                            name={"description"}
-                            value={formik.values.description}
+                            label="KindOfSport"
+                            name={"kindOfSport"}
+                            value={formik.values.kindOfSport}
                             onChange={formik.handleChange}
-                            error={!!formik.errors.description}
-                            helperText={formik.errors.description}
-                        />
-                        <TextField
-                            type={'number'}
-                            margin="normal"
-                            required
-                            fullWidth
-                            label="Price"
-                            name={"price"}
-                            value={formik.values.price}
-                            onChange={formik.handleChange}
-                            error={!!formik.errors.price}
-                            helperText={formik.errors.price}
+                            error={!!formik.errors.kindOfSport}
+                            helperText={formik.errors.kindOfSport}
                         />
                     </List>
                     <Grid container className={"button-grid"}>
@@ -138,7 +137,7 @@ const ServiceCreation = () => {
                                 type="submit"
                                 sx={{textTransform: 'none'}}
                             >
-                                Create
+                                Save
                             </Button>
                         </Grid>
                     </Grid>
@@ -148,4 +147,4 @@ const ServiceCreation = () => {
         : <Forbidden/>);
 }
 
-export default ServiceCreation;
+export default AdminTrainerEditForm;

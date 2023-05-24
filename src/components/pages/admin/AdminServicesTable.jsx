@@ -14,14 +14,14 @@ import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import ServiceService from "../../../service/ServiceService";
 import Forbidden from "../error/Forbidden";
+import ScheduleService from "../../../service/ScheduleService";
 
-const ServicesTable = () => {
+const AdminServicesTable = () => {
     const navigate = useNavigate();
 
     const ADMIN_ROLE = 'ADMIN';
     const [role, setRole] = useState();
     const [services, setServices] = useState([]);
-    const [selectedServiceId, setSelectedServiceId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);
@@ -38,12 +38,15 @@ const ServicesTable = () => {
                 setIsLoading(false);
             })
             .catch(() => setIsLoading(false));
+    }, [page, size]);
+
+    useEffect(() => {
         ServiceService.getServicesCount()
             .then(response => {
-                setCountOfServices(response.data)
+                setCountOfServices(response.data);
             })
             .catch((error) => console.log(error));
-    }, [page, size]);
+    }, []);
 
 
     const handleChangePage = (event, newPage) => setPage(newPage);
@@ -62,10 +65,10 @@ const ServicesTable = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Id</TableCell>
-                                        <TableCell align="right">Name</TableCell>
-                                        <TableCell align="right">Description</TableCell>
-                                        <TableCell align="right">Price</TableCell>
-                                        <TableCell align="right">Edit</TableCell>
+                                        <TableCell align="center">Name</TableCell>
+                                        <TableCell align="center">Description</TableCell>
+                                        <TableCell align="center">Price</TableCell>
+                                        <TableCell align="center">Edit</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -74,17 +77,25 @@ const ServicesTable = () => {
                                             <TableCell component="th" scope="row">
                                                 {service.id}
                                             </TableCell>
-                                            <TableCell align="right">{service.name}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell align="center">{service.name}</TableCell>
+                                            <TableCell align="center">
                                                 {service.description.length <= 60
                                                     ? service.description
                                                     : (service.description.substr(0, 60) + "...")
                                                 }
                                             </TableCell>
-                                            <TableCell align="right">{service.price + ' $'}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell align="center">{service.price + ' $'}</TableCell>
+                                            <TableCell align="center">
                                                 <Button
                                                     onClick={() => {
+                                                        navigate('/admin/services/edit', {
+                                                            state: {
+                                                                id: service.id,
+                                                                description: service.description,
+                                                                name: service.name,
+                                                                price: service.price,
+                                                            },
+                                                        });
                                                     }}
                                                     variant='contained'
                                                     sx={{
@@ -116,4 +127,4 @@ const ServicesTable = () => {
             : <Forbidden/>));
 }
 
-export default ServicesTable;
+export default AdminServicesTable;

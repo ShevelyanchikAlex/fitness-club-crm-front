@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../assets/styles/FormCard.css';
+import '../../../../assets/styles/FormCard.css';
 import {
     Alert,
     Card,
@@ -17,15 +17,16 @@ import {
     TextField
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import TrainerService from "../../../service/TrainerService";
-import UserService from "../../../service/UserService";
+import TrainerService from "../../../../service/TrainerService";
+import UserService from "../../../../service/UserService";
 import Box from "@mui/material/Box";
-import Forbidden from "../error/Forbidden";
+import Forbidden from "../../error/Forbidden";
 
-const TrainerCreation = () => {
+const AdminTrainerCreationForm = () => {
     const navigate = useNavigate();
 
     const ADMIN_ROLE = 'ADMIN';
+    const USER_ROLE = 'USER';
     const [role, setRole] = useState('GUEST');
     const [alertAutoHideDuration, setAlertAutoHideDuration] = useState(5000);
     const [showAlert, setShowAlert] = useState(false);
@@ -47,7 +48,8 @@ const TrainerCreation = () => {
         setRole(localStorage.getItem('user-role'))
         UserService.getAllUsers(page, size)
             .then(response => {
-                setUsers(response.data);
+                let usersWithUserRole = response.data.filter(user => user.role === USER_ROLE)
+                setUsers(usersWithUserRole);
                 setIsLoading(false);
             })
             .catch(() => setIsLoading(false));
@@ -121,7 +123,7 @@ const TrainerCreation = () => {
                                     {
                                         users.map((user, index) => (
                                             <MenuItem value={user} key={index}>
-                                                {user.name + user.surname}
+                                                {user.name + ' ' + user.surname}
                                             </MenuItem>
                                         ))
                                     }
@@ -179,4 +181,4 @@ const TrainerCreation = () => {
         : <Forbidden/>);
 }
 
-export default TrainerCreation;
+export default AdminTrainerCreationForm;

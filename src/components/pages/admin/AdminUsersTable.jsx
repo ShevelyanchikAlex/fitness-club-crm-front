@@ -14,14 +14,18 @@ import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import Forbidden from "../error/Forbidden";
+import AdminUserStatusEditForm from "./form/AdminUserStatusEditForm";
+import OrderService from "../../../service/OrderService";
 
-const UsersTable = () => {
+const AdminUsersTable = () => {
 
     const ADMIN_ROLE = 'ADMIN';
+    const USER_ROLE = 'USER';
     const [role, setRole] = useState();
     const [users, setUsers] = useState([]);
-    const [selectedUserId, setSelectedUserId] = useState(0);
+    const [selectedUserDto, setSelectedUserDto] = useState();
     const [isLoading, setIsLoading] = useState(false);
+    const [isOpenChangeUserStatusDialog, setIsOpenChangeUserStatusDialog] = useState(false);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);
     const [countOfUsers, setCountOfUsers] = useState(10);
@@ -33,16 +37,22 @@ const UsersTable = () => {
         setRole(localStorage.getItem("user-role"));
         UserService.getAllUsers(page, size)
             .then(response => {
-                setUsers(response.data);
+                const usersWithUserRole = response.data.filter(user => user.role == USER_ROLE)
+                setUsers(usersWithUserRole);
                 setIsLoading(false);
             })
             .catch(() => setIsLoading(false));
+
+    }, [page, size]);
+
+
+    useEffect(() => {
         UserService.getUsersCount()
             .then(response => {
-                setCountOfUsers(response.data)
+                setCountOfUsers(response.data);
             })
             .catch((error) => console.log(error));
-    }, [page, size]);
+    }, [size]);
 
 
     const handleChangePage = (event, newPage) => setPage(newPage);
@@ -61,13 +71,13 @@ const UsersTable = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Id</TableCell>
-                                        <TableCell align="right">Name</TableCell>
-                                        <TableCell align="right">Surname</TableCell>
-                                        <TableCell align="right">Email</TableCell>
-                                        <TableCell align="right">Phone Number</TableCell>
-                                        <TableCell align="right">Role</TableCell>
-                                        <TableCell align="right">Status</TableCell>
-                                        <TableCell align="right">Change Status</TableCell>
+                                        <TableCell align="center">Name</TableCell>
+                                        <TableCell align="center">Surname</TableCell>
+                                        <TableCell align="center">Email</TableCell>
+                                        <TableCell align="center">Phone Number</TableCell>
+                                        <TableCell align="center">Role</TableCell>
+                                        <TableCell align="center">Status</TableCell>
+                                        <TableCell align="center">Change Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -76,15 +86,17 @@ const UsersTable = () => {
                                             <TableCell component="th" scope="row">
                                                 {user.id}
                                             </TableCell>
-                                            <TableCell align="right">{user.name}</TableCell>
-                                            <TableCell align="right">{user.surname}</TableCell>
-                                            <TableCell align="right">{user.email}</TableCell>
-                                            <TableCell align="right">{user.phoneNumber}</TableCell>
-                                            <TableCell align="right">{user.role}</TableCell>
-                                            <TableCell align="right">{user.status}</TableCell>
-                                            <TableCell align="right">
+                                            <TableCell align="center">{user.name}</TableCell>
+                                            <TableCell align="center">{user.surname}</TableCell>
+                                            <TableCell align="center">{user.email}</TableCell>
+                                            <TableCell align="center">{user.phoneNumber}</TableCell>
+                                            <TableCell align="center">{user.role}</TableCell>
+                                            <TableCell align="center">{user.status}</TableCell>
+                                            <TableCell align="center">
                                                 <Button
                                                     onClick={() => {
+                                                        setSelectedUserDto(user);
+                                                        setIsOpenChangeUserStatusDialog(true);
                                                     }}
                                                     variant='contained'
                                                     sx={{background: '#2196f3', color: 'white', textTransform: 'none'}}
@@ -107,9 +119,15 @@ const UsersTable = () => {
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeSize}
                         />
+                        <AdminUserStatusEditForm
+                            isOpenChangeUserStatusDialog={isOpenChangeUserStatusDialog}
+                            setIsOpenChangeUserStatusDialog={setIsOpenChangeUserStatusDialog}
+                            setSelectedUserDto={setSelectedUserDto}
+                            userDto={selectedUserDto}
+                        />
                     </div>
             )
             : <Forbidden/>));
 }
 
-export default UsersTable;
+export default AdminUsersTable;
