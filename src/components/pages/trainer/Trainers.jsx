@@ -5,7 +5,7 @@ import {Grid, Pagination} from "@mui/material";
 import '../../../assets/styles/Trainers.css';
 import CircularIndeterminate from "../../common/CircularProgress";
 import TrainerService from "../../../service/TrainerService";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Avatar from "@mui/material/Avatar";
 
 const Trainers = () => {
 
@@ -19,10 +19,14 @@ const Trainers = () => {
 
     useEffect(() => {
         setIsLoading(true);
-        TrainerService.getAllTrainers(page, size)
+        TrainerService.getAllTrainerProfiles(page, size)
             .then(response => {
+                response.data.forEach(trainerProfile => {
+                    if (trainerProfile.userProfile.profileImagePayload) {
+                        trainerProfile.userProfile.profileImagePayload = `data:${trainerProfile.userProfile.profileImagePayload.fileType};base64,${trainerProfile.userProfile.profileImagePayload.file}`;
+                    }
+                })
                 setTrainers(response.data);
-                console.log(response.data)
                 setIsLoading(false);
             })
             .catch(() => setIsLoading(false));
@@ -39,11 +43,18 @@ const Trainers = () => {
 
     function TrainerItem(props) {
         return <Grid className={'trainer-item'} item>
-            <Box>
-                <AccountCircleIcon sx={{width: 70, height: 70}}/>
+            <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                <Avatar
+                    sx={{height: 100, width: 100, margin: 1}}
+                    src={props.trainer.userProfile.profileImagePayload}
+                >
+                    {props.trainer.userProfile.name ? props.trainer.userProfile.name[0] : ' '}
+                    {props.trainer.userProfile.surname ? props.trainer.userProfile.surname[0] : ' '}
+                </Avatar>
             </Box>
-            <Box alignContent={'center'}>
-                <Typography variant="h4">{props.trainer.userDto.surname + ' ' + props.trainer.userDto.name}</Typography>
+            <Box alignContent={'center'} margin={1}>
+                <Typography
+                    variant="h5">{props.trainer.userProfile.surname + ' ' + props.trainer.userProfile.name}</Typography>
                 <Typography variant="h6">{props.trainer.kindOfSport}</Typography>
                 <Typography variant="h6">{props.trainer.category}</Typography>
             </Box>
