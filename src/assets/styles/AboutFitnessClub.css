@@ -17,7 +17,29 @@
 }
 
 #about-fitness-club-box-items-container {
+    padding: 1%;
     margin-top: 1%;
     margin-right: 5%;
     margin-left: 5%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+#contacts-fitness-club-box-header {
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+#contacts-fitness-club-box-items-container {
+    text-align: center;
+    padding: 1%;
+    margin-top: 1%;
+    margin-right: 5%;
+    margin-left: 5%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 4px 8px 0 rgba(0, 0, 0, 0.3);
 }
