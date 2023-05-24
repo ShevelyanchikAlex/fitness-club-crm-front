@@ -11,22 +11,19 @@ import {
 } from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
-import Button from "@mui/material/Button";
 import TrainerService from "../../../service/TrainerService";
 import Forbidden from "../error/Forbidden";
 
-const TrainersTable = () => {
+const TrainerTrainersTable = () => {
 
-    const ADMIN_ROLE = 'ADMIN';
+    const TRAINER_ROLE = 'TRAINER';
     const [role, setRole] = useState();
     const [trainers, setTrainers] = useState([]);
-    const [selectedTrainerId, setSelectedTrainerId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);
     const [countOfTrainers, setCountOfTrainers] = useState(10);
     const rowsPerPage = [5, 10, 20];
-    const navigate = useNavigate();
 
     useEffect(() => {
         setIsLoading(true);
@@ -37,12 +34,16 @@ const TrainersTable = () => {
                 setIsLoading(false);
             })
             .catch(() => setIsLoading(false));
+    }, [page, size]);
+
+
+    useEffect(() => {
         TrainerService.getTrainersCount()
             .then(response => {
                 setCountOfTrainers(response.data)
             })
             .catch((error) => console.log(error));
-    }, [page, size]);
+    }, [size]);
 
 
     const handleChangePage = (event, newPage) => setPage(newPage);
@@ -54,7 +55,7 @@ const TrainersTable = () => {
 
     return (isLoading
         ? <CircularProgress/>
-        : ((role && role === ADMIN_ROLE)
+        : ((role && role === TRAINER_ROLE)
             ? ((trainers.length === 0) ? <EmptyListCard/> :
                     <div>
                         <TableContainer sx={{marginY: 10}}>
@@ -62,13 +63,13 @@ const TrainersTable = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Id</TableCell>
-                                        <TableCell align="right">Name</TableCell>
-                                        <TableCell align="right">Surname</TableCell>
-                                        <TableCell align="right">Email</TableCell>
-                                        <TableCell align="right">Category</TableCell>
-                                        <TableCell align="right">Kind of sport</TableCell>
-                                        <TableCell align="right">Status</TableCell>
-                                        <TableCell align="right">Edit</TableCell>
+                                        <TableCell align="center">Name</TableCell>
+                                        <TableCell align="center">Surname</TableCell>
+                                        <TableCell align="center">Email</TableCell>
+                                        <TableCell align="center">Phone Number</TableCell>
+                                        <TableCell align="center">Category</TableCell>
+                                        <TableCell align="center">Kind of sport</TableCell>
+                                        <TableCell align="center">Status</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -77,22 +78,13 @@ const TrainersTable = () => {
                                             <TableCell component="th" scope="row">
                                                 {trainer.id}
                                             </TableCell>
-                                            <TableCell align="right">{trainer.userDto.name}</TableCell>
-                                            <TableCell align="right">{trainer.userDto.surname}</TableCell>
-                                            <TableCell align="right">{trainer.userDto.email}</TableCell>
-                                            <TableCell align="right">{trainer.category}</TableCell>
-                                            <TableCell align="right">{trainer.kindOfSport}</TableCell>
-                                            <TableCell align="right">{trainer.userDto.status}</TableCell>
-                                            <TableCell align="right">
-                                                <Button
-                                                    onClick={() => {
-                                                    }}
-                                                    variant='contained'
-                                                    sx={{background: '#2196f3', color: 'white', textTransform: 'none'}}
-                                                >
-                                                    Edit
-                                                </Button>
-                                            </TableCell>
+                                            <TableCell align="center">{trainer.userDto.name}</TableCell>
+                                            <TableCell align="center">{trainer.userDto.surname}</TableCell>
+                                            <TableCell align="center">{trainer.userDto.email}</TableCell>
+                                            <TableCell align="center">{trainer.userDto.phoneNumber}</TableCell>
+                                            <TableCell align="center">{trainer.category}</TableCell>
+                                            <TableCell align="center">{trainer.kindOfSport}</TableCell>
+                                            <TableCell align="center">{trainer.userDto.status}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -113,4 +105,4 @@ const TrainersTable = () => {
             : <Forbidden/>));
 }
 
-export default TrainersTable;
+export default TrainerTrainersTable;
