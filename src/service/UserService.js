@@ -28,8 +28,50 @@ class UserService {
         });
     }
 
+    static async updateUserEmailByActualEmail(actualEmail, updatedEmail) {
+        return await axios.patch(`${API_URL}/update/${actualEmail}/email`, null, {
+            params: {
+                updatedEmail: updatedEmail,
+            },
+            headers: {
+                'Authorization': cookies.get("token"),
+            }
+        });
+    }
+
+    static async updateUserStatus(id, userStatus) {
+        return await axios.patch(`${API_URL}/update/${id}/status`, null, {
+            params: {
+                status: userStatus
+            },
+            headers: {
+                'Authorization': cookies.get("token")
+            }
+        });
+    }
+
+    static async updateUserProfileImage(email, profileImage) {
+        return await axios.post(`${API_URL}/update/${email}/profile-image`, profileImage, {
+            headers: {
+                'Authorization': cookies.get("token"),
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
+
+
     static async getUserById(id) {
         return await axios.get(`${API_URL}/${id}`,
+            {
+                headers: {
+                    'Authorization': cookies.get("token"),
+                }
+            }
+        );
+    };
+
+    static async getUserProfileByEmail(email) {
+        return await axios.get(`${API_URL}/${email}/with-profile-image`,
             {
                 headers: {
                     'Authorization': cookies.get("token"),
