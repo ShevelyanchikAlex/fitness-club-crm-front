@@ -7,15 +7,12 @@ import '../../../assets/styles/Services.css';
 import ServiceInfo from "./ServiceInfo";
 import ServiceService from "../../../service/ServiceService";
 import CircularIndeterminate from "../../common/CircularProgress";
-import ReservationServiceDialog from "./ReservationServiceDialog";
 import EmptyListCard from "../error/EmptyListCard";
 
 const Services = () => {
 
     const PAGE_OFFSET = 1;
-    const USER_ROLE = 'USER';
     const [isOpenMoreInfo, setIsOpenMoreInfo] = useState(false);
-    const [isOpenReserveService, setIsOpenReserveService] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(9);
@@ -56,27 +53,10 @@ const Services = () => {
                     : (props.service.description.substr(0, 170) + "...")
                 }
             </Typography>
-            {
-                (role && role === USER_ROLE)
-                    ? <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                            <Button id={'more-info-button'} onClick={() => {
-                                setSelectedService(props.service);
-                                setIsOpenMoreInfo(true);
-                            }}>More Info</Button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Button id={'reserve-button'} onClick={() => {
-                                setSelectedService(props.service);
-                                setIsOpenReserveService(true);
-                            }}>Reserve</Button>
-                        </Grid>
-                    </Grid>
-                    : <Button id={'more-info-button'} onClick={() => {
-                        setSelectedService(props.service);
-                        setIsOpenMoreInfo(true);
-                    }}>More Info</Button>
-            }
+            <Button id={'more-info-button'} onClick={() => {
+                setSelectedService(props.service);
+                setIsOpenMoreInfo(true);
+            }}>More Info</Button>
         </Grid>
     }
 
@@ -100,11 +80,6 @@ const Services = () => {
                 isOpenMoreInfo={isOpenMoreInfo}
                 setIsOpenMoreInfo={setIsOpenMoreInfo}
                 serviceDto={selectedService}
-            />
-            <ReservationServiceDialog
-                isOpenReserveService={isOpenReserveService}
-                setIsOpenReserveService={setIsOpenReserveService}
-                service={selectedService}
             />
         </Box>
     }
