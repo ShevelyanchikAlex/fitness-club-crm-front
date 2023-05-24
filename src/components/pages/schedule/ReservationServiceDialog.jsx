@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     Alert,
     Box,
@@ -6,47 +6,22 @@ import {
     CircularProgress,
     Dialog,
     DialogContent,
-    Grid, Snackbar, TextField
+    Grid, Snackbar
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import '../../../assets/styles/UserEdit.css';
+import '../../../assets/styles/ReservedServices.css';
 import Typography from "@mui/material/Typography";
-import dayjs from "dayjs";
-import * as yup from "yup";
-import {useFormik} from "formik";
-import {DesktopDateTimePicker} from '@mui/x-date-pickers';
-import {LocalizationProvider} from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import UserService from "../../../service/UserService";
 import {useNavigate} from "react-router-dom";
 import OrderService from "../../../service/OrderService";
 
-const ReservationServiceDialog = ({isOpenReserveService, setIsOpenReserveService, service}) => {
+const ReservationServiceDialog = ({isOpenReserveService, setIsOpenReserveService, scheduleDto}) => {
     const navigate = useNavigate();
 
     const [alertAutoHideDuration, setAlertAutoHideDuration] = useState(5000);
     const [showAlert, setShowAlert] = useState(false);
     const [severityType, setSeverityType] = useState('error');
     const [alertText, setAlertText] = useState('');
-    const [orderDto, setOrderDto] = useState({
-        userId: 1,
-        trainerId: 1,
-        trainingStartDateTime: dayjs(new Date()),
-        serviceDto: service
-    });
-
-    const validationSchema = yup.object().shape({
-        trainingStartDateTime: yup.string().required('Training Date cannot be empty'),
-    })
-
-    const formik = useFormik({
-        initialValues: orderDto,
-        validationSchema: validationSchema,
-        onSubmit: async (values) => {
-            handleSubmit();
-        },
-    });
-
 
     const handleSubmit = () => {
         const email = localStorage.getItem('user-email');
@@ -56,9 +31,9 @@ const ReservationServiceDialog = ({isOpenReserveService, setIsOpenReserveService
 
                 const handledOrderDto = {
                     userId: actualUserId,
-                    trainerId: formik.values.trainerId,
-                    trainingStartDateTime: formik.values.trainingStartDateTime,
-                    serviceDto: formik.values.serviceDto,
+                    trainerId: scheduleDto.trainerId,
+                    trainingStartDateTime: scheduleDto.trainingStartDateTime,
+                    serviceDto: scheduleDto.serviceDto,
                 };
 
                 console.log(handledOrderDto);
@@ -69,7 +44,7 @@ const ReservationServiceDialog = ({isOpenReserveService, setIsOpenReserveService
                         sleep(1000).then(() => {
                             setIsOpenReserveService(false);
                             window.location.reload();
-                            navigate('/services');
+                            navigate('/schedule');
                         })
                             .catch(ex => {
                                 setAlertAction('error', ex.response.data, 5000)
@@ -93,12 +68,11 @@ const ReservationServiceDialog = ({isOpenReserveService, setIsOpenReserveService
     }
 
     const MessageInfo = () => {
-        return !service
+        return (!scheduleDto)
             ? <CircularProgress/>
-            :
-            <Box margin={5}>
+            : <Box margin={5}>
                 <Typography>
-                    Do you really want to reserve a {service.name} class?
+                    Do you really want to reserve a {scheduleDto.serviceDto.name} class?
                 </Typography>
             </Box>
     }
@@ -121,32 +95,7 @@ const ReservationServiceDialog = ({isOpenReserveService, setIsOpenReserveService
                     <Card id={'reservation-service-card'}>
                         <h1 className={"reservation-service-header"}>Service Reservation</h1>
                         <MessageInfo/>
-                        <form onSubmit={formik.handleSubmit}>
-                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                <DesktopDateTimePicker
-                                    inputFormat="YYYY-MM-DD HH:mm:ss"
-                                    label="Training Date"
-                                    name={"trainingStartDateTime"}
-                                    value={formik.values.trainingStartDateTime}
-                                    minDate={dayjs(new Date())}
-                                    onChange={newValue => formik.setFieldValue('trainingStartDateTime', newValue)}
-                                    error={!!formik.errors.trainingStartDateTime}
-                                    helperText={formik.errors.trainingStartDateTime}
-                                    renderInput={(params) =>
-                                        <TextField {...params}
-                                                   required
-                                                   value={formik.values.trainingStartDateTime}
-                                                   name={"trainingStartDateTime"}
-                                                   margin="normal"
-                                                   fullWidth
-                                                   error={!!formik.errors.trainingStartDateTime}
-                                                   helperText={formik.errors.trainingStartDateTime}
-                                        />
-                                    }
-                                />
-                            </LocalizationProvider>
-                        </form>
-                        <Grid container spacing={1}>
+                        <Grid container spacing={1} marginBottom={1}>
                             <Grid item xs={6}>
                                 <Button id={'reservation-service-back-button'} onClick={() => {
                                     setIsOpenReserveService(false);

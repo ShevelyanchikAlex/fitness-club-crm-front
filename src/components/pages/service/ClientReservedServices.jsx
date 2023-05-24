@@ -15,7 +15,7 @@ const ClientReservedServices = () => {
     const USER_ROLE = 'USER';
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
-    const [size, setSize] = useState(10);
+    const [size, setSize] = useState(6);
     const [role, setRole] = useState('GUEST');
     const [reservedServicesCount, setReservedServicesCount] = useState(10);
     const [reservedServices, setReservedServices] = useState([]);
@@ -32,7 +32,7 @@ const ClientReservedServices = () => {
                 OrderService.getAllOrdersByUserId(page, size, userId)
                     .then(response => {
                         setReservedServices(response.data);
-                        setReservedServicesCount(Math.ceil(response.data.length / size))
+                        setReservedServicesCount(Math.ceil(response.data.length / size) + 1);
                         setIsLoading(false);
                     })
                     .catch(() => setIsLoading(false));
@@ -59,9 +59,13 @@ const ClientReservedServices = () => {
 
     function ReservedServiceItem(props) {
         return <Grid className={'reserved-service-item'} item>
-            <ReservedServiceFieldRow fieldName={'Service Name:'} fieldValue={props.service.serviceDto.name}/>
-            <ReservedServiceFieldRow fieldName={'Reserving date:'} fieldValue={props.service.createdDateTime}/>
-            <ReservedServiceFieldRow fieldName={'Training date:'} fieldValue={props.service.trainingStartDateTime}/>
+            <Box className={'reserved-service-item-header'}>
+                <Typography variant="h5" fontWeight={'bold'}>{props.service.serviceDto.name}</Typography>
+            </Box>
+            <ReservedServiceFieldRow fieldName={'Reserving date:'}
+                                     fieldValue={formatDateTime(props.service.createdDateTime)}/>
+            <ReservedServiceFieldRow fieldName={'Training date:'}
+                                     fieldValue={formatDateTime(props.service.trainingStartDateTime)}/>
             <ReservedServiceFieldRow fieldName={'Service price:'} fieldValue={props.service.serviceDto.price + ' $'}/>
             <ReservedServiceFieldRow fieldName={'Service status:'} fieldValue={props.service.orderStatus}/>
         </Grid>
@@ -95,12 +99,27 @@ const ClientReservedServices = () => {
         />;
     }
 
+    function formatDateTime(dateTime) {
+        const datetime = new Date(dateTime);
+
+        const formattedDate = datetime.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+        });
+        const formattedTime = datetime.toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+        return `${formattedDate}-${formattedTime}`;
+    }
+
     return (
         isLoading
             ? <CircularIndeterminate/>
             : ((role && role === USER_ROLE)
-                ?
-                (reservedServices.length === 0
+                ? (reservedServices.length === 0
                         ? <EmptyListCard/>
                         : <Box marginTop={'5%'}>
                             <ReservedServiceBox/>
