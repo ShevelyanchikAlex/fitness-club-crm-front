@@ -12,6 +12,9 @@ class ServiceService {
                 params: {
                     page: page,
                     size: size,
+                },
+                headers: {
+                    'Authorization': cookies.get("token"),
                 }
             }
         );
@@ -19,6 +22,20 @@ class ServiceService {
 
     static async getAllOrdersByUserId(page = 0, size = 10, userId) {
         return await axios.get(`${API_URL}/user/${userId}`,
+            {
+                params: {
+                    page: page,
+                    size: size,
+                },
+                headers: {
+                    'Authorization': cookies.get("token"),
+                }
+            }
+        );
+    };
+
+    static async getAllOrdersByTrainerId(page = 0, size = 10, trainerId) {
+        return await axios.get(`${API_URL}/trainer/${trainerId}`,
             {
                 params: {
                     page: page,
@@ -47,13 +64,34 @@ class ServiceService {
         });
     }
 
+    static async updateOrderStatus(id, orderStatus) {
+        return await axios.patch(`${API_URL}/update/${id}/order-status`, null,{
+            params: {
+                status: orderStatus
+            },
+            headers: {
+                'Authorization': cookies.get("token"),
+            }
+        });
+    }
+
+
     static async getOrderById(id) {
         return await axios.get(`${API_URL}/${id}`);
     };
 
 
     static async getOrdersCount() {
-        return await axios.get(`${API_URL}/count`);
+        return await axios.get(`${API_URL}/count`,
+            {
+                headers: {
+                    'Authorization': cookies.get("token"),
+                }
+            });
+    };
+
+    static async getOrdersCountByTrainerId(trainerId) {
+        return await axios.get(`${API_URL}/trainerId/${trainerId}`);
     };
 
 }
