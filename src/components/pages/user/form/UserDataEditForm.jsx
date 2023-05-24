@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../assets/styles/UserEdit.css';
+import '../../../../assets/styles/UserEdit.css';
 import {
     Alert,
     Card,
@@ -13,9 +13,9 @@ import {
     TextField
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import UserService from "../../../service/UserService";
+import UserService from "../../../../service/UserService";
 
-const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
+const UserDataEditForm = ({isOpenEditUserDataForm, setIsOpenEditUserDataForm, userDto}) => {
     const navigate = useNavigate();
 
     const [alertAutoHideDuration, setAlertAutoHideDuration] = useState(5000);
@@ -26,7 +26,6 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
     let [userDtoInit] = useState({
         name: userDto.name,
         surname: userDto.surname,
-        email: userDto.email,
         phoneNumber: userDto.phoneNumber,
     });
 
@@ -35,8 +34,6 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
             .matches("^([А-Я][а-яё]{1,30}|[A-Z][a-z]{1,30})$", "Invalid name. Name must start with uppercase letter and it length must be between 2 and 30 letters."),
         surname: yup.string().required("Email is a required field")
             .matches("^([А-Я][а-яё]{1,40}|[A-Z][a-z]{1,40})$", "Invalid surname. Surname must start with uppercase letter and and it length must be between 2 and 40 letters."),
-        email: yup.string().required("Email is a required field")
-            .email("Invalid email format"),
         phoneNumber: yup.string().required("Phone number is a required field")
             .matches("^\\+375(17|29|33|44)[0-9]{7}$", "Invalid phone number. Phone number must be like +375(17|29|33|44)(7 numbers)."),
     })
@@ -54,7 +51,7 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
             id: userDto.id,
             name: formik.values.name,
             surname: formik.values.surname,
-            email: formik.values.email,
+            email: userDto.email,
             password: userDto.password,
             phoneNumber: formik.values.phoneNumber,
         };
@@ -63,7 +60,7 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
             .then(() => {
                 setAlertAction('success', 'User successfully edited.', 1000)
                 sleep(1000).then(() => {
-                    setIsOpenEditForm(false)
+                    setIsOpenEditUserDataForm(false)
                     window.location.reload();
                     navigate('/user/profile')
                 });
@@ -86,7 +83,7 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
 
 
     return (
-        <Dialog open={isOpenEditForm}
+        <Dialog open={isOpenEditUserDataForm}
                 PaperProps={{
                     style: {backgroundColor: 'transparent', boxShadow: 'none'}
                 }}
@@ -128,17 +125,6 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
                                 margin="normal"
                                 required
                                 fullWidth
-                                label="Email"
-                                name={"email"}
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                error={!!formik.errors.email}
-                                helperText={formik.errors.email}
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
                                 label="Phone number"
                                 name={"phoneNumber"}
                                 value={formik.values.phoneNumber}
@@ -152,7 +138,7 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
                                 <Button
                                     className={"back-button"}
                                     variant='outlined'
-                                    onClick={() => setIsOpenEditForm(false)}
+                                    onClick={() => setIsOpenEditUserDataForm(false)}
                                     sx={{textTransform: 'none'}}
                                 >
                                     Back
@@ -175,4 +161,4 @@ const EditUser = ({isOpenEditForm, setIsOpenEditForm, userDto}) => {
         </Dialog>);
 }
 
-export default EditUser;
+export default UserDataEditForm;
