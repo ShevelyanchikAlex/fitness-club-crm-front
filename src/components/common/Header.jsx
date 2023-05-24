@@ -49,24 +49,44 @@ const Header = () => {
                             onChange={() => {
                             }}
                         >
+                            {/*admin*/}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/users')}>Users</MenuItem>}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/services')}>Services</MenuItem>}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/trainers')}>Trainers</MenuItem>}
+                            {role && (role === ADMIN_ROLE) &&
+                                <MenuItem onClick={() => navigate('/admin/schedule')}>Schedule</MenuItem>}
+                            {role && (role === ADMIN_ROLE) &&
+                                <MenuItem onClick={() => navigate('/admin/reservations')}>Reservations</MenuItem>}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/services/create')}>New Service</MenuItem>}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/trainers/create')}>New Trainer</MenuItem>}
-                            {role && role === USER_ROLE && <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>}
-
-                            {role && role === USER_ROLE &&
+                            {role && (role === ADMIN_ROLE) &&
+                                <MenuItem onClick={() => navigate('/admin/schedule/create')}>Add Service to Schedule</MenuItem>}
+                            {/*trainer*/}
+                            {role && role === TRAINER_ROLE &&
+                                <MenuItem onClick={() => navigate('/trainer/trainers')}>Trainers</MenuItem>}
+                            {role && role === TRAINER_ROLE &&
+                                <MenuItem onClick={() => navigate('/trainer/reservations')}>Reservations</MenuItem>}
+                            {role && role === TRAINER_ROLE &&
+                                <MenuItem onClick={() => navigate('/trainer/schedule')}>Schedule</MenuItem>}
+                            {role && (role === TRAINER_ROLE) &&
+                                <MenuItem onClick={() => navigate('/trainer/schedule/create')}>Add Service to Schedule</MenuItem>}
+                            {/*user and guest*/}
+                            {(!role || role === USER_ROLE) &&
+                                <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>}
+                            {(!role || role === USER_ROLE) &&
                                 <MenuItem onClick={() => navigate('/services')}>Services</MenuItem>}
-                            {role && role === USER_ROLE &&
+                            {(!role || role === USER_ROLE) &&
                                 <MenuItem onClick={() => navigate('/trainers')}>Trainers</MenuItem>}
-                            {role && role === USER_ROLE &&
+                            {(!role || role === USER_ROLE) &&
                                 <MenuItem onClick={() => navigate('/contacts')}>About Us</MenuItem>}
+                            {/*user*/}
+                            {(role && role === USER_ROLE) &&
+                                <MenuItem onClick={() => navigate('/schedule')}>Schedule</MenuItem>}
                             <MenuItem value="Pages" sx={{display: 'none'}}>Pages</MenuItem>
                         </Select>
                     </FormControl>
