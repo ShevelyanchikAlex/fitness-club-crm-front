@@ -17,6 +17,17 @@ class TrainerService {
         );
     };
 
+    static async getAllTrainerProfiles(page = 0, size = 10) {
+        return await axios.get(`${API_URL}/trainer-profiles`,
+            {
+                params: {
+                    page: page,
+                    size: size,
+                }
+            }
+        );
+    };
+
     static async saveTrainer(trainerDro) {
         return await axios.post(`${API_URL}/create`, trainerDro, {
             headers: {
@@ -43,9 +54,8 @@ class TrainerService {
         );
     };
 
-
-    static async getTrainerReservations(id) {
-        return await axios.get(`${API_URL}/${id}/orders`,
+    static async getTrainerByEmail(email) {
+        return await axios.get(`${API_URL}/email/${email}`,
             {
                 headers: {
                     'Authorization': cookies.get("token"),
@@ -53,6 +63,8 @@ class TrainerService {
             }
         );
     };
+
+
 
     static async getTrainersCount() {
         return await axios.get(`${API_URL}/count`);
