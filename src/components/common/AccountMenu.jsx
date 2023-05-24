@@ -10,6 +10,7 @@ import {useNavigate} from "react-router-dom";
 const AccountMenu = ({email, role}) => {
     const navigate = useNavigate();
 
+    const USER_ROLE = 'USER';
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isOpenAccountMenu = Boolean(anchorEl);
 
@@ -42,7 +43,7 @@ const AccountMenu = ({email, role}) => {
         <Box>
             <Tooltip title="Account settings">
                 <IconButton onClick={handleAccountMenuClick}>
-                    <Avatar sx={{width: 40, height: 40}}></Avatar>
+                    <Avatar sx={{width: 40, height: 40}}/>
                 </IconButton>
             </Tooltip>
             <Menu
@@ -84,7 +85,7 @@ const AccountMenu = ({email, role}) => {
                     <Avatar/> Profile {email}
                 </MenuItem>
                 <Divider/>
-                {role && role === 'USER' &&
+                {role && role === USER_ROLE &&
                     <MenuItem onClick={handleReservedServicesClick}>
                         <ListItemIcon>
                             <HistoryIcon fontSize="small"/>
