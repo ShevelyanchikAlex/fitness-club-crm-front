@@ -54,7 +54,7 @@ class UserService {
         return await axios.post(`${API_URL}/update/${email}/profile-image`, profileImage, {
             headers: {
                 'Authorization': cookies.get("token"),
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': `multipart/form-data; boundary=${profileImage._boundary}`,
             }
         });
     }

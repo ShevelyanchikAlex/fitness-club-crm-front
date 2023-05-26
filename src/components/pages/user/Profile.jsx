@@ -49,16 +49,19 @@ const Profile = () => {
     }
 
     const handleImageSelect = (event) => {
-        // const file = event.target.files[0];
-        // console.log(file)
-        // const email = localStorage.getItem("user-email");
-        // setIsLoading(true);
-        // UserService.updateUserProfileImage(email, file)
-        //     .then(() => {
-        //         setIsLoading(false)
-        //         navigate('/user/profile');
-        //     })
-        //     .catch(() => setIsLoading(false));
+        event.preventDefault();
+        const file = event.target.files[0];
+        let formData = new FormData();
+        formData.append("profileImage", file);
+        const email = localStorage.getItem("user-email");
+        setIsLoading(true);
+
+        UserService.updateUserProfileImage(email, formData)
+            .then(() => {
+                setIsLoading(false)
+                window.location.reload();
+            })
+            .catch(() => setIsLoading(false));
     };
 
     return (
