@@ -14,6 +14,8 @@ import Forbidden from "../error/Forbidden";
 import ScheduleService from "../../../service/ScheduleService";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
+import dayjs from "dayjs";
+import Box from "@mui/material/Box";
 
 const AdminScheduleTable = () => {
     const navigate = useNavigate();
@@ -60,17 +62,17 @@ const AdminScheduleTable = () => {
     function formatDateTime(dateTime) {
         const datetime = new Date(dateTime);
 
-        const formattedDate = datetime.toLocaleDateString("en-US", {
+        const formattedDate = datetime.toLocaleDateString("de-DE", {
             year: "numeric",
             month: "2-digit",
             day: "2-digit",
         });
-        const formattedTime = datetime.toLocaleTimeString("en-US", {
+        const formattedTime = datetime.toLocaleTimeString("de-DE", {
             hour12: false,
             hour: "2-digit",
             minute: "2-digit"
         });
-        return `${formattedDate}-${formattedTime}`;
+        return `${formattedDate}  ${formattedTime}`;
     }
 
     return (isLoading
@@ -104,28 +106,31 @@ const AdminScheduleTable = () => {
                                             <TableCell align="center">{schedule.availableSpots}</TableCell>
                                             <TableCell align="center">{schedule.trainerId}</TableCell>
                                             <TableCell align="center">
-                                                <Button
-                                                    onClick={() => {
-                                                        navigate('/admin/schedule/update', {
-                                                            state: {
-                                                                id: schedule.id,
-                                                                trainingStartDateTime: schedule.trainingStartDateTime,
-                                                                trainerId: schedule.trainerId,
-                                                                availableSpots: schedule.availableSpots,
-                                                                serviceType: schedule.serviceType,
-                                                                serviceDto: schedule.serviceDto,
-                                                            },
-                                                        });
-                                                    }}
-                                                    variant='contained'
-                                                    sx={{
-                                                        background: '#2196f3',
-                                                        color: 'white',
-                                                        textTransform: 'none'
-                                                    }}
-                                                >
-                                                    Edit
-                                                </Button>
+                                                {dayjs(schedule.trainingStartDateTime) < dayjs(new Date())
+                                                    ? <Box/>
+                                                    : <Button
+                                                        onClick={() => {
+                                                            navigate('/admin/schedule/update', {
+                                                                state: {
+                                                                    id: schedule.id,
+                                                                    trainingStartDateTime: schedule.trainingStartDateTime,
+                                                                    trainerId: schedule.trainerId,
+                                                                    availableSpots: schedule.availableSpots,
+                                                                    serviceType: schedule.serviceType,
+                                                                    serviceDto: schedule.serviceDto,
+                                                                },
+                                                            });
+                                                        }}
+                                                        variant='contained'
+                                                        sx={{
+                                                            background: '#2196f3',
+                                                            color: 'white',
+                                                            textTransform: 'none'
+                                                        }}
+                                                    >
+                                                        Edit
+                                                    </Button>}
+
                                             </TableCell>
                                         </TableRow>
                                     ))}

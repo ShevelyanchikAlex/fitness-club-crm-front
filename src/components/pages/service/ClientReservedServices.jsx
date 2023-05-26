@@ -102,17 +102,17 @@ const ClientReservedServices = () => {
     function formatDateTime(dateTime) {
         const datetime = new Date(dateTime);
 
-        const formattedDate = datetime.toLocaleDateString("en-US", {
+        const formattedDate = datetime.toLocaleDateString("de-DE", {
             year: "numeric",
             month: "2-digit",
             day: "2-digit",
         });
-        const formattedTime = datetime.toLocaleTimeString("en-US", {
+        const formattedTime = datetime.toLocaleTimeString("de-DE", {
             hour12: false,
             hour: "2-digit",
             minute: "2-digit"
         });
-        return `${formattedDate}-${formattedTime}`;
+        return `${formattedDate}  ${formattedTime}`;
     }
 
     return (

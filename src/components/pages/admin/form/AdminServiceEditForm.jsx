@@ -55,7 +55,7 @@ const AdminServiceEditForm = () => {
             price: formik.values.price
         };
 
-        // if (!formik.errors) {
+        if (formik.isValid) {
             ServiceService.updateService(handledServiceDto)
                 .then(() => {
                     setAlertAction('success', 'Service successfully created.', 1000)
@@ -64,7 +64,7 @@ const AdminServiceEditForm = () => {
                 .catch(ex => {
                     setAlertAction('error', ex.response.data, 5000)
                 })
-        // }
+        }
     }
 
     function setAlertAction(severityType, text, autoHideDuration) {
