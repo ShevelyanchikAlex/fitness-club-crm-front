@@ -14,8 +14,9 @@ import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import Forbidden from "../error/Forbidden";
-import AdminUserStatusEditForm from "./form/AdminUserStatusEditForm";
+import AdminUserStatusEditForm from "./form/user/AdminUserStatusEditForm";
 import OrderService from "../../../service/OrderService";
+import Box from "@mui/material/Box";
 
 const AdminUsersTable = () => {
 
@@ -65,7 +66,7 @@ const AdminUsersTable = () => {
     return (isLoading ? <CircularProgress/> :
         ((role && role === ADMIN_ROLE)
             ? ((users.length === 0) ? <EmptyListCard/> :
-                    <div>
+                    <Box>
                         <TableContainer sx={{marginY: 10}}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
@@ -125,7 +126,7 @@ const AdminUsersTable = () => {
                             setSelectedUserDto={setSelectedUserDto}
                             userDto={selectedUserDto}
                         />
-                    </div>
+                    </Box>
             )
             : <Forbidden/>));
 }

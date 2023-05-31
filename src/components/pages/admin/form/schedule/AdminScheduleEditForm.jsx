@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../../assets/styles/FormCard.css';
+import '../../../../../assets/styles/FormCard.css';
 import {
     Alert,
     Card,
@@ -17,24 +17,24 @@ import {
     TextField
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import TrainerService from "../../../../service/TrainerService";
+import TrainerService from "../../../../../service/TrainerService";
 import Box from "@mui/material/Box";
-import Forbidden from "../../error/Forbidden";
-import ServiceService from "../../../../service/ServiceService";
-import ScheduleService from "../../../../service/ScheduleService";
+import Forbidden from "../../../error/Forbidden";
+import ScheduleService from "../../../../../service/ScheduleService";
 import {DesktopDateTimePicker} from "@mui/x-date-pickers";
 import {LocalizationProvider} from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from "dayjs";
-import CircularProgress from "../../../common/CircularProgress";
+import CircularProgress from "../../../../common/CircularProgress";
 
-const AdminScheduleCreationForm = () => {
+const AdminScheduleEditForm = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
     const ADMIN_ROLE = 'ADMIN';
     const TRAINER_ROLE = 'TRAINER';
     const INDIVIDUAL_AVAILABLE_SPOTS = 1;
-    const [role, setRole] = useState('GUEST');
+    const role = localStorage.getItem('user-role')
     const [alertAutoHideDuration, setAlertAutoHideDuration] = useState(5000);
     const [showAlert, setShowAlert] = useState(false);
     const [severityType, setSeverityType] = useState('error');
@@ -42,33 +42,24 @@ const AdminScheduleCreationForm = () => {
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(100);
     const [isLoading, setIsLoading] = useState(false);
-    const [services, setServices] = useState([]);
     const [trainers, setTrainers] = useState([]);
-    const [selectedTrainer, setSelectedTrainer] = useState();
     const serviceTypes = ['INDIVIDUAL', 'GROUP'];
     const [scheduleDtoInitialValue] = useState({
-        trainingStartDateTime: '',
-        trainerId: '',
-        availableSpots: '',
-        serviceDto: '',
-        serviceType: serviceTypes.at(0)
+        id: location.state.id,
+        trainingStartDateTime: location.state.trainingStartDateTime,
+        trainerId: location.state.trainerId,
+        availableSpots: location.state.availableSpots,
+        serviceType: location.state.serviceType,
+        serviceDto: location.state.serviceDto,
     });
 
 
     useEffect(() => {
         setIsLoading(true);
-        setRole(localStorage.getItem('user-role'))
-
-        ServiceService.getAllServices(page, size)
+        TrainerService.getAllTrainers(page, size)
             .then(response => {
-                setServices(response.data);
-            })
-            .then(() => {
-                TrainerService.getAllTrainers(page, size)
-                    .then(response => {
-                        setTrainers(response.data);
-                        setIsLoading(false);
-                    })
+                setTrainers(response.data);
+                setIsLoading(false);
             })
             .catch(() => setIsLoading(false));
     }, [size]);
@@ -78,7 +69,6 @@ const AdminScheduleCreationForm = () => {
         trainingStartDateTime: yup.string().required('Training Date is a required field'),
         trainerId: yup.number().required('Training is a required field'),
         availableSpots: yup.number().required("Available Spots is a required field").min(1).max(30),
-        serviceDto: yup.object().required("ServiceDto is a required field"),
         serviceType: yup.string().required("Service Type is a required field"),
     })
 
@@ -93,20 +83,20 @@ const AdminScheduleCreationForm = () => {
 
     const handleSubmit = () => {
         const handledScheduleDto = {
+            id: scheduleDtoInitialValue.id,
             trainingStartDateTime: formik.values.trainingStartDateTime,
             trainerId: formik.values.trainerId,
             availableSpots: formik.values.serviceType === serviceTypes.at(0)
                 ? INDIVIDUAL_AVAILABLE_SPOTS
                 : formik.values.availableSpots,
-            serviceDto: formik.values.serviceDto,
+            serviceDto: scheduleDtoInitialValue.serviceDto,
             serviceType: formik.values.serviceType,
         };
 
-        console.log(handledScheduleDto)
 
-        ScheduleService.saveSchedule(handledScheduleDto)
+        ScheduleService.updateSchedule(handledScheduleDto)
             .then(() => {
-                setAlertAction('success', 'Schedule successfully created.', 1000)
+                setAlertAction('success', 'Schedule successfully updated.', 1000)
                 sleep(1000).then(() => navigate('/admin/schedule'));
             })
             .catch(ex => {
@@ -136,29 +126,16 @@ const AdminScheduleCreationForm = () => {
                         </Alert>
                     </Snackbar>
                     <Card id={"card"}>
-                        <h1 className={"header"}>Schedule Creation</h1>
+                        <h1 className={"header"}>Edit Schedule</h1>
                         <form onSubmit={formik.handleSubmit}>
                             <List style={{height: 300, overflow: 'auto'}}>
-                                <Box sx={{minWidth: 120, marginBottom: '3%'}}>
-                                    <FormControl fullWidth>
-                                        <InputLabel>Service</InputLabel>
-                                        <Select
-                                            label="Service"
-                                            name={"serviceDto"}
-                                            value={formik.values.serviceDto}
-                                            onChange={formik.handleChange}
-                                            defaultValue={services.at(0)}
-                                        >
-                                            {
-                                                services.map((service, index) => (
-                                                    <MenuItem value={service} key={index}>
-                                                        {service.name}
-                                                    </MenuItem>
-                                                ))
-                                            }
-                                        </Select>
-                                    </FormControl>
-                                </Box>
+                                <TextField
+                                    disabled={true}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    value={scheduleDtoInitialValue.serviceDto.name}
+                                />
                                 <Box sx={{minWidth: 120, marginBottom: '3%'}}>
                                     <FormControl fullWidth>
                                         <InputLabel>Trainer</InputLabel>
@@ -167,7 +144,7 @@ const AdminScheduleCreationForm = () => {
                                             name={"trainerId"}
                                             value={formik.values.trainerId}
                                             onChange={formik.handleChange}
-                                            defaultValue={trainers.at(0).id}
+                                            defaultValue={formik.values.trainerId}
                                         >
                                             {
                                                 trainers.map((trainer, index) => (
@@ -255,7 +232,7 @@ const AdminScheduleCreationForm = () => {
                                         type="submit"
                                         sx={{textTransform: 'none'}}
                                     >
-                                        Create
+                                        Save
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -266,4 +243,4 @@ const AdminScheduleCreationForm = () => {
         : <Forbidden/>);
 }
 
-export default AdminScheduleCreationForm;
+export default AdminScheduleEditForm;

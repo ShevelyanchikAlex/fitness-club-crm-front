@@ -14,8 +14,8 @@ import Forbidden from "../error/Forbidden";
 import OrderService from "../../../service/OrderService";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import AdminUserInfoDialog from "./form/AdminUserInfoDialog";
-import AdminReservationStatusEditForm from "./form/AdminReservationStatusEditForm";
+import AdminUserInfoDialog from "./form/user/AdminUserInfoDialog";
+import AdminReservationStatusEditForm from "./form/reservation/AdminReservationStatusEditForm";
 
 const AdminReservationsTable = () => {
 
@@ -101,7 +101,7 @@ const AdminReservationsTable = () => {
                                         <TableCell align="center">Training date</TableCell>
                                         <TableCell align="center">Trainer id</TableCell>
                                         <TableCell align="center">Service status</TableCell>
-                                        <TableCell align="center">User Info</TableCell>
+                                        <TableCell align="center">User info</TableCell>
                                         <TableCell align="center">Change status</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -120,8 +120,20 @@ const AdminReservationsTable = () => {
                                                 align="center">{reservation.trainerId}</TableCell>
                                             <TableCell align="center">{reservation.orderStatus}</TableCell>
                                             <TableCell align="center"><Button
+                                                variant='contained'
+                                                sx={{
+                                                    background: '#2196f3',
+                                                    color: 'white',
+                                                    textTransform: 'none'
+                                                }}
                                                 onClick={() => handleOpenUserInfoDialog(reservation)}>User Info</Button></TableCell>
                                             <TableCell align="center"><Button
+                                                variant='contained'
+                                                sx={{
+                                                    background: '#f39629',
+                                                    color: 'white',
+                                                    textTransform: 'none'
+                                                }}
                                                 onClick={() => handleOpenChangeReservationStatusDialog(reservation)}>Change
                                                 Status</Button></TableCell>
                                         </TableRow>

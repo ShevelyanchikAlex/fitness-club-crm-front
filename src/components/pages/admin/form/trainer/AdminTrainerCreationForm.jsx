@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../../assets/styles/FormCard.css';
+import '../../../../../assets/styles/FormCard.css';
 import {
     Alert,
     Card,
@@ -17,10 +17,10 @@ import {
     TextField
 } from "@mui/material";
 import Button from "@mui/material/Button";
-import TrainerService from "../../../../service/TrainerService";
-import UserService from "../../../../service/UserService";
+import TrainerService from "../../../../../service/TrainerService";
+import UserService from "../../../../../service/UserService";
 import Box from "@mui/material/Box";
-import Forbidden from "../../error/Forbidden";
+import Forbidden from "../../../error/Forbidden";
 
 const AdminTrainerCreationForm = () => {
     const navigate = useNavigate();

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate, useLocation} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../../assets/styles/FormCard.css';
+import '../../../../../assets/styles/FormCard.css';
 import {
     Alert,
     Card, Container,
@@ -11,8 +11,8 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import ServiceService from "../../../../service/ServiceService";
-import Forbidden from "../../error/Forbidden";
+import ServiceService from "../../../../../service/ServiceService";
+import Forbidden from "../../../error/Forbidden";
 
 const AdminServiceEditForm = () => {
     const navigate = useNavigate();

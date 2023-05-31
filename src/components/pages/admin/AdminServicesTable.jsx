@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import ServiceService from "../../../service/ServiceService";
 import Forbidden from "../error/Forbidden";
 import ScheduleService from "../../../service/ScheduleService";
+import Box from "@mui/material/Box";
 
 const AdminServicesTable = () => {
     const navigate = useNavigate();
@@ -59,7 +60,7 @@ const AdminServicesTable = () => {
     return (isLoading ? <CircularProgress/> :
         ((role && role === ADMIN_ROLE)
             ? ((services.length === 0) ? <EmptyListCard/> :
-                    <div>
+                    <Box>
                         <TableContainer sx={{marginY: 10}}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
@@ -122,7 +123,7 @@ const AdminServicesTable = () => {
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeSize}
                         />
-                    </div>
+                    </Box>
             )
             : <Forbidden/>));
 }

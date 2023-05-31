@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import TrainerService from "../../../service/TrainerService";
 import Forbidden from "../error/Forbidden";
 import ServiceService from "../../../service/ServiceService";
+import Box from "@mui/material/Box";
 
 const AdminTrainersTable = () => {
 
@@ -60,7 +61,7 @@ const AdminTrainersTable = () => {
         ? <CircularProgress/>
         : ((role && role === ADMIN_ROLE)
             ? ((trainers.length === 0) ? <EmptyListCard/> :
-                    <div>
+                    <Box>
                         <TableContainer sx={{marginY: 10}}>
                             <Table stickyHeader aria-label="sticky table">
                                 <TableHead>
@@ -120,7 +121,7 @@ const AdminTrainersTable = () => {
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeSize}
                         />
-                    </div>
+                    </Box>
             )
             : <Forbidden/>));
 }

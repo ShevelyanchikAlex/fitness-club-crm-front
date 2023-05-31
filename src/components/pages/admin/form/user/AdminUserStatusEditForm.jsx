@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import '../../../../assets/styles/UserEdit.css';
+import '../../../../../assets/styles/UserEdit.css';
 import {
     Alert,
     Card,
     Dialog, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar,
 } from "@mui/material";
-import '../../../../assets/styles/Trainer.css';
+import '../../../../../assets/styles/Trainer.css';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import {useNavigate} from "react-router-dom";
-import UserService from "../../../../service/UserService";
+import UserService from "../../../../../service/UserService";
 
 const AdminUserStatusEditForm = ({
                                     isOpenChangeUserStatusDialog, setIsOpenChangeUserStatusDialog,
@@ -28,7 +28,6 @@ const AdminUserStatusEditForm = ({
     const handleSubmit = () => {
         if (userDto.id && selectedUserStatus) {
             console.log(userDto.id)
-            console.log(selectedUserStatus)
             UserService.updateUserStatus(userDto.id, selectedUserStatus)
                 .then(() => {
                     setAlertAction('success', 'Reservation status successfully changed.', 1000)

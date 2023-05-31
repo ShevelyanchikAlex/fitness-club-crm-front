@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import '../../../../assets/styles/FormCard.css';
+import '../../../../../assets/styles/FormCard.css';
 import {Alert, Card, Container, Grid, List, Snackbar, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
-import ServiceService from "../../../../service/ServiceService";
-import Forbidden from "../../error/Forbidden";
+import ServiceService from "../../../../../service/ServiceService";
+import Forbidden from "../../../error/Forbidden";
 
 const AdminServiceCreationForm = () => {
     const navigate = useNavigate();

@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
-import '../../../../assets/styles/UserEdit.css';
+import '../../../../../assets/styles/UserEdit.css';
 import {
     Alert,
     Card,
     Dialog, DialogContent, FormControl, Grid, InputLabel, MenuItem, Select, Snackbar,
 } from "@mui/material";
-import '../../../../assets/styles/Trainer.css';
+import '../../../../../assets/styles/Trainer.css';
 import Button from "@mui/material/Button";
-import CircularIndeterminate from "../../../common/CircularProgress";
+import CircularIndeterminate from "../../../../common/CircularProgress";
 import Box from "@mui/material/Box";
-import OrderService from "../../../../service/OrderService";
+import OrderService from "../../../../../service/OrderService";
 import {useNavigate} from "react-router-dom";
 
 const AdminReservationStatusEditForm = ({
