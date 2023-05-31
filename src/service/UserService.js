@@ -7,7 +7,7 @@ const cookies = new Cookies();
 class UserService {
 
     static async getAllUsers(page = 0, size = 10) {
-        return await axios.get(API_URL,
+        return await axios.get(`${API_URL}/all`,
             {
                 params: {
                     page: page,

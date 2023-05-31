@@ -7,7 +7,7 @@ const cookies = new Cookies();
 class TrainerService {
 
     static async getAllTrainers(page = 0, size = 10) {
-        return await axios.get(API_URL,
+        return await axios.get(`${API_URL}/all`,
             {
                 params: {
                     page: page,
@@ -18,7 +18,7 @@ class TrainerService {
     };
 
     static async getAllTrainerProfiles(page = 0, size = 10) {
-        return await axios.get(`${API_URL}/trainer-profiles`,
+        return await axios.get(`${API_URL}/trainer-profile/all`,
             {
                 params: {
                     page: page,

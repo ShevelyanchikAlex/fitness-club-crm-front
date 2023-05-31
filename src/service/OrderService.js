@@ -7,7 +7,7 @@ const cookies = new Cookies();
 class ServiceService {
 
     static async getAllOrders(page = 0, size = 10) {
-        return await axios.get(API_URL,
+        return await axios.get(`${API_URL}/all`,
             {
                 params: {
                     page: page,
@@ -49,7 +49,7 @@ class ServiceService {
     };
 
     static async saveOrder(orderDto) {
-        return await axios.post(API_URL, orderDto, {
+        return await axios.post(`${API_URL}/create`, orderDto, {
             headers: {
                 'Authorization': cookies.get("token"),
             }

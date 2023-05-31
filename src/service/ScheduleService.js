@@ -7,7 +7,7 @@ const cookies = new Cookies();
 class ScheduleService {
 
     static async getAllSchedules(page = 0, size = 10) {
-        return await axios.get(API_URL,
+        return await axios.get(`${API_URL}/all`,
             {
                 headers: {
                     'Authorization': cookies.get("token"),
