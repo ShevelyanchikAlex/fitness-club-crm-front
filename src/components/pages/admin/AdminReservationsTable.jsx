@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import AdminUserInfoDialog from "./form/user/AdminUserInfoDialog";
 import AdminReservationStatusEditForm from "./form/reservation/AdminReservationStatusEditForm";
+import dayjs from "dayjs";
 
 const AdminReservationsTable = () => {
 
@@ -127,15 +128,18 @@ const AdminReservationsTable = () => {
                                                     textTransform: 'none'
                                                 }}
                                                 onClick={() => handleOpenUserInfoDialog(reservation)}>User Info</Button></TableCell>
-                                            <TableCell align="center"><Button
-                                                variant='contained'
-                                                sx={{
-                                                    background: '#f39629',
-                                                    color: 'white',
-                                                    textTransform: 'none'
-                                                }}
-                                                onClick={() => handleOpenChangeReservationStatusDialog(reservation)}>Change
-                                                Status</Button></TableCell>
+                                            <TableCell align="center">
+                                                {dayjs(reservation.trainingStartDateTime) > dayjs(new Date()) &&
+                                                    <Button
+                                                        variant='contained'
+                                                        sx={{
+                                                            background: '#f39629',
+                                                            color: 'white',
+                                                            textTransform: 'none'
+                                                        }}
+                                                        onClick={() => handleOpenChangeReservationStatusDialog(reservation)}>Change
+                                                        Status</Button>
+                                                }</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

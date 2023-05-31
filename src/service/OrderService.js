@@ -65,7 +65,7 @@ class ServiceService {
     }
 
     static async updateOrderStatus(id, orderStatus) {
-        return await axios.patch(`${API_URL}/update/${id}/order-status`, null,{
+        return await axios.patch(`${API_URL}/update/${id}/order-status`, null, {
             params: {
                 status: orderStatus
             },
@@ -91,7 +91,19 @@ class ServiceService {
     };
 
     static async getOrdersCountByTrainerId(trainerId) {
-        return await axios.get(`${API_URL}/trainerId/${trainerId}`);
+        return await axios.get(`${API_URL}/count/trainerId/${trainerId}`, {
+            headers: {
+                'Authorization': cookies.get("token"),
+            }
+        });
+    };
+
+    static async getOrdersCountByUserId(userId) {
+        return await axios.get(`${API_URL}/count/userId/${userId}`, {
+            headers: {
+                'Authorization': cookies.get("token"),
+            }
+        });
     };
 
 }

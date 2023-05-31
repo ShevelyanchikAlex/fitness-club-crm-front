@@ -30,7 +30,7 @@ const AdminUserStatusEditForm = ({
             console.log(userDto.id)
             UserService.updateUserStatus(userDto.id, selectedUserStatus)
                 .then(() => {
-                    setAlertAction('success', 'Reservation status successfully changed.', 1000)
+                    setAlertAction('success', 'User status successfully changed.', 1000)
                     sleep(1000).then(() => {
                         window.location.reload();
                         navigate('/trainer/users');

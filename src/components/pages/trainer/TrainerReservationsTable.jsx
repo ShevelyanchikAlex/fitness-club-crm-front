@@ -17,6 +17,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import UserInfoDialog from "./form/UserInfoDialog";
 import TrainerReservationStatusEditForm from "./form/TrainerReservationStatusEditForm";
+import dayjs from "dayjs";
 
 const TrainerReservationsTable = () => {
 
@@ -128,9 +129,13 @@ const TrainerReservationsTable = () => {
                                             <TableCell align="center">{reservation.orderStatus}</TableCell>
                                             <TableCell align="center"><Button
                                                 onClick={() => handleOpenUserInfoDialog(reservation)}>User Info</Button></TableCell>
-                                            <TableCell align="center"><Button
-                                                onClick={() => handleOpenChangeReservationStatusDialog(reservation)}>Change
-                                                Status</Button></TableCell>
+                                            <TableCell align="center">
+                                                {dayjs(reservation.trainingStartDateTime) > dayjs(new Date()) &&
+                                                    <Button
+                                                        onClick={() => handleOpenChangeReservationStatusDialog(reservation)}>Change
+                                                        Status</Button>
+                                                }
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>

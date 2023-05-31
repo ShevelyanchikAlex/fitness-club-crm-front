@@ -32,7 +32,12 @@ const ClientReservedServices = () => {
                 OrderService.getAllOrdersByUserId(page, size, userId)
                     .then(response => {
                         setReservedServices(response.data);
-                        setReservedServicesCount(Math.ceil(response.data.length / size) + 1);
+
+                        OrderService.getOrdersCountByUserId(userId)
+                            .then(response => {
+                                setReservedServicesCount(Math.ceil(response.data / size));
+                            })
+                            .catch((error) => console.log(error));
                         setIsLoading(false);
                     })
                     .catch(() => setIsLoading(false));
