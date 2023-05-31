@@ -12,6 +12,7 @@ import {
     Select,
 } from "@mui/material";
 import AccountMenu from "./AccountMenu";
+import AdminNewsArticleCreationForm from "../pages/admin/form/news/AdminNewsArticleCreationForm";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -60,12 +61,19 @@ const Header = () => {
                                 <MenuItem onClick={() => navigate('/admin/schedule')}>Schedule</MenuItem>}
                             {role && (role === ADMIN_ROLE) &&
                                 <MenuItem onClick={() => navigate('/admin/reservations')}>Reservations</MenuItem>}
+                            {role && (role === ADMIN_ROLE) &&
+                                <MenuItem onClick={() => navigate('/admin/newsArticles')}>News</MenuItem>}
+                            {role && (role === ADMIN_ROLE) &&
+                                <MenuItem onClick={() => navigate('/admin/newsApiArticles')}>News from API</MenuItem>}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/services/create')}>New Service</MenuItem>}
                             {role && role === ADMIN_ROLE &&
                                 <MenuItem onClick={() => navigate('/admin/trainers/create')}>New Trainer</MenuItem>}
                             {role && (role === ADMIN_ROLE) &&
-                                <MenuItem onClick={() => navigate('/admin/schedule/create')}>Add Service to Schedule</MenuItem>}
+                                <MenuItem onClick={() => navigate('/admin/schedule/create')}>Add Service to
+                                    Schedule</MenuItem>}
+                            {role && (role === ADMIN_ROLE) &&
+                                <MenuItem onClick={() => navigate('/admin/news/create')}>Add News Article</MenuItem>}
                             {/*trainer*/}
                             {role && role === TRAINER_ROLE &&
                                 <MenuItem onClick={() => navigate('/trainer/trainers')}>Trainers</MenuItem>}
@@ -74,7 +82,8 @@ const Header = () => {
                             {role && role === TRAINER_ROLE &&
                                 <MenuItem onClick={() => navigate('/trainer/schedule')}>Schedule</MenuItem>}
                             {role && (role === TRAINER_ROLE) &&
-                                <MenuItem onClick={() => navigate('/trainer/schedule/create')}>Add Service to Schedule</MenuItem>}
+                                <MenuItem onClick={() => navigate('/trainer/schedule/create')}>Add Service to
+                                    Schedule</MenuItem>}
                             {/*user and guest*/}
                             {(!role || role === USER_ROLE) &&
                                 <MenuItem onClick={() => navigate('/home')}>Home</MenuItem>}
@@ -82,6 +91,8 @@ const Header = () => {
                                 <MenuItem onClick={() => navigate('/services')}>Services</MenuItem>}
                             {(!role || role === USER_ROLE) &&
                                 <MenuItem onClick={() => navigate('/trainers')}>Trainers</MenuItem>}
+                            {(!role || role === USER_ROLE) &&
+                                <MenuItem onClick={() => navigate('/news')}>News</MenuItem>}
                             {(!role || role === USER_ROLE) &&
                                 <MenuItem onClick={() => navigate('/contacts')}>About Us</MenuItem>}
                             {/*user*/}
