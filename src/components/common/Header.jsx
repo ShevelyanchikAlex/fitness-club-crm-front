@@ -21,6 +21,7 @@ const Header = () => {
     const TRAINER_ROLE = 'TRAINER';
     const email = localStorage.getItem("user-email");
     const role = localStorage.getItem("user-role");
+
     const handleLoginButton = () => navigate('/auth/login');
     const handleSignUpButton = () => navigate('/auth/sign-up');
 

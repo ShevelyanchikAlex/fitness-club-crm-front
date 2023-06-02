@@ -8,6 +8,7 @@ import '../../../../../assets/styles/Trainer.css';
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import DateTimeUtilService from "../../../../../service/DateTimeUtilService";
 
 const AdminNewsArticleInfoDialog = ({
                                         isOpenNewsArticleInfoDialog,
@@ -31,22 +32,6 @@ const AdminNewsArticleInfoDialog = ({
         </Box>;
     }
 
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
-
     return (
         ((isOpenNewsArticleInfoDialog && selectedNewsArticle)
             && <Dialog open={isOpenNewsArticleInfoDialog}
@@ -64,7 +49,9 @@ const AdminNewsArticleInfoDialog = ({
                             <UserInfoRow fieldName={'Title'} fieldValue={selectedNewsArticle.title}/>
                             <UserInfoRow fieldName={'Author'} fieldValue={selectedNewsArticle.author}/>
                             <UserInfoRow fieldName={'URL'} fieldValue={selectedNewsArticle.url}/>
-                            <UserInfoRow fieldName={'Created Date'} fieldValue={formatDateTime(selectedNewsArticle.createdDateTime)}/>
+                            <UserInfoRow fieldName={'Created Date'}
+                                         fieldValue={DateTimeUtilService.formatDateTime(selectedNewsArticle.createdDateTime)}
+                            />
                         </List>
                         <Button id={'trainer-table-back-button'} onClick={() => {
                             handleCloseNewsArticleInfoDialog()

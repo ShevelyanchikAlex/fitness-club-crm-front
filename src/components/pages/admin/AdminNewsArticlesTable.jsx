@@ -17,6 +17,7 @@ import NewsArticleService from "../../../service/NewsArticleService";
 import Box from "@mui/material/Box";
 import AdminNewsArticleInfoDialog from "./form/news/AdminNewsArticleInfoDialog";
 import AdminNewsArticleDeleteDialog from "./form/news/AdminNewsArticleDeleteDialog";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const AdminNewsArticlesTable = () => {
     const navigate = useNavigate();
@@ -61,22 +62,6 @@ const AdminNewsArticlesTable = () => {
         setPage(0);
     }
 
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
-
     return (isLoading ? <CircularProgress/> :
         ((role && role === ADMIN_ROLE)
             ? ((newsArticles.length === 0) ? <EmptyListCard/> :
@@ -112,8 +97,9 @@ const AdminNewsArticlesTable = () => {
                                                 align="center"> {newsArticle.url ? (newsArticle.url.length <= 40
                                                 ? newsArticle.url
                                                 : (newsArticle.url.substr(0, 40) + "...")) : 'none'}</TableCell>
-                                            <TableCell
-                                                align="center">{formatDateTime(newsArticle.createdDateTime)}</TableCell>
+                                            <TableCell align="center">
+                                                {DateTimeUtilService.formatDateTime(newsArticle.createdDateTime)}
+                                            </TableCell>
                                             <TableCell align="center">
                                                 <Button
                                                     onClick={() => {

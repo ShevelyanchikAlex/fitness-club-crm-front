@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import TrainerService from "../../../service/TrainerService";
 import CircularIndeterminate from "../../common/CircularProgress";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const ScheduleInfoDialog = ({isOpenMoreInfo, setIsOpenMoreInfo, scheduleDto}) => {
 
@@ -27,21 +28,6 @@ const ScheduleInfoDialog = ({isOpenMoreInfo, setIsOpenMoreInfo, scheduleDto}) =>
                 .catch(() => setIsLoading(false));
         }
     }, []);
-
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
 
 
     function ServiceInfoRow({fieldName, fieldValue}) {
@@ -75,7 +61,8 @@ const ScheduleInfoDialog = ({isOpenMoreInfo, setIsOpenMoreInfo, scheduleDto}) =>
                                 <ServiceInfoRow fieldName={'Available Spots'} fieldValue={scheduleDto.availableSpots}/>
                                 <ServiceInfoRow fieldName={'Price'} fieldValue={scheduleDto.serviceDto.price + ' $'}/>
                                 <ServiceInfoRow fieldName={'Training Date'}
-                                                fieldValue={formatDateTime(scheduleDto.trainingStartDateTime)}/>
+                                                fieldValue={DateTimeUtilService.formatDateTime(scheduleDto.trainingStartDateTime)}
+                                />
                                 <ServiceInfoRow fieldName={'Trainer'}
                                                 fieldValue={trainerDto.userDto.name + ' ' + trainerDto.userDto.surname}/>
                             </List>

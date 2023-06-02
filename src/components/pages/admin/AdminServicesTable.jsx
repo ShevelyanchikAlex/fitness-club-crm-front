@@ -14,7 +14,6 @@ import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import ServiceService from "../../../service/ServiceService";
 import Forbidden from "../error/Forbidden";
-import ScheduleService from "../../../service/ScheduleService";
 import Box from "@mui/material/Box";
 
 const AdminServicesTable = () => {

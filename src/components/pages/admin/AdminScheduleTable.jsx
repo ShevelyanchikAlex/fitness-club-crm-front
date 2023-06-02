@@ -16,6 +16,7 @@ import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import dayjs from "dayjs";
 import Box from "@mui/material/Box";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const AdminScheduleTable = () => {
     const navigate = useNavigate();
@@ -59,22 +60,6 @@ const AdminScheduleTable = () => {
         setPage(0);
     }
 
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
-
     return (isLoading
         ? <CircularProgress/>
         : ((role && role === ADMIN_ROLE)
@@ -100,8 +85,9 @@ const AdminScheduleTable = () => {
                                                 {schedule.id}
                                             </TableCell>
                                             <TableCell align="center">{schedule.serviceDto.name}</TableCell>
-                                            <TableCell
-                                                align="center">{formatDateTime(schedule.trainingStartDateTime)}</TableCell>
+                                            <TableCell align="center">
+                                                {DateTimeUtilService.formatDateTime(schedule.trainingStartDateTime)}
+                                            </TableCell>
                                             <TableCell align="center">{schedule.serviceType}</TableCell>
                                             <TableCell align="center">{schedule.availableSpots}</TableCell>
                                             <TableCell align="center">{schedule.trainerId}</TableCell>

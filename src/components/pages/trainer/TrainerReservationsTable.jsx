@@ -18,6 +18,7 @@ import Box from "@mui/material/Box";
 import UserInfoDialog from "./form/UserInfoDialog";
 import TrainerReservationStatusEditForm from "./form/TrainerReservationStatusEditForm";
 import dayjs from "dayjs";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const TrainerReservationsTable = () => {
 
@@ -60,22 +61,6 @@ const TrainerReservationsTable = () => {
                 .catch((error) => console.log(error));
         }
     }, [size]);
-
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
 
 
     const handleChangePage = (event, newPage) => setPage(newPage);
@@ -122,10 +107,12 @@ const TrainerReservationsTable = () => {
                                                 {reservation.id}
                                             </TableCell>
                                             <TableCell align="center">{reservation.serviceDto.name}</TableCell>
-                                            <TableCell
-                                                align="center">{formatDateTime(reservation.createdDateTime)}</TableCell>
-                                            <TableCell
-                                                align="center">{formatDateTime(reservation.trainingStartDateTime)}</TableCell>
+                                            <TableCell align="center">
+                                                {DateTimeUtilService.formatDateTime(reservation.createdDateTime)}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {DateTimeUtilService.formatDateTime(reservation.trainingStartDateTime)}
+                                            </TableCell>
                                             <TableCell align="center">{reservation.orderStatus}</TableCell>
                                             <TableCell align="center"><Button
                                                 onClick={() => handleOpenUserInfoDialog(reservation)}>User Info</Button></TableCell>

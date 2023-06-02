@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom";
 import Button from "@mui/material/Button";
 import ScheduleInfoDialog from "./ServiceInfoDialog";
 import ReservationServiceDialog from "./ReservationServiceDialog";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const Schedule = () => {
     const navigate = useNavigate();
@@ -47,23 +48,6 @@ const Schedule = () => {
             .catch(e => console.log(e));
     }, [size]);
 
-
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
-
     function ScheduleDescriptionRow(props) {
         return <Grid container spacing={2} id={'schedule-card-field-row'}>
             <Grid item id={'schedule-card-field-row-item'}>
@@ -84,7 +68,8 @@ const Schedule = () => {
             <ScheduleDescriptionRow fieldName={'Training Type'} fieldValue={props.schedule.serviceType}/>
             <ScheduleDescriptionRow fieldName={'Available Spots'} fieldValue={props.schedule.availableSpots}/>
             <ScheduleDescriptionRow fieldName={'Training Date'}
-                                    fieldValue={formatDateTime(props.schedule.trainingStartDateTime)}/>
+                                    fieldValue={DateTimeUtilService.formatDateTime(props.schedule.trainingStartDateTime)}
+            />
 
             {(Date.parse(props.schedule.trainingStartDateTime) - Date.parse(new Date()) > 0 && props.schedule.availableSpots > 0)
                 ? <Grid container spacing={1}>

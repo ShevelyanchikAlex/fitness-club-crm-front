@@ -1,8 +1,8 @@
 import React from 'react';
 import '../../assets/styles/Footer.css'
-import {Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
+import {Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from "@mui/material";
 import Avatar from "@mui/material/Avatar";
-import {Logout, PersonAdd, Settings} from "@mui/icons-material";
+import {Logout} from "@mui/icons-material";
 import HistoryIcon from '@mui/icons-material/History';
 import AuthService from "../../service/AuthService";
 import {useNavigate} from "react-router-dom";

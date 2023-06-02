@@ -10,12 +10,10 @@ import {
     TablePagination,
     TableRow
 } from "@mui/material";
-import {useNavigate} from "react-router-dom";
 import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import Forbidden from "../error/Forbidden";
 import AdminUserStatusEditForm from "./form/user/AdminUserStatusEditForm";
-import OrderService from "../../../service/OrderService";
 import Box from "@mui/material/Box";
 
 const AdminUsersTable = () => {
@@ -31,14 +29,13 @@ const AdminUsersTable = () => {
     const [size, setSize] = useState(10);
     const [countOfUsers, setCountOfUsers] = useState(10);
     const rowsPerPage = [5, 10, 20];
-    const navigate = useNavigate();
 
     useEffect(() => {
         setIsLoading(true);
         setRole(localStorage.getItem("user-role"));
         UserService.getAllUsers(page, size)
             .then(response => {
-                const usersWithUserRole = response.data.filter(user => user.role == USER_ROLE)
+                const usersWithUserRole = response.data.filter(user => user.role === USER_ROLE)
                 setUsers(usersWithUserRole);
                 setIsLoading(false);
             })

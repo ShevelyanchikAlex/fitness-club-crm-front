@@ -8,6 +8,7 @@ import OrderService from "../../../service/OrderService";
 import UserService from "../../../service/UserService";
 import Forbidden from "../error/Forbidden";
 import EmptyListCard from "../error/EmptyListCard";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const ClientReservedServices = () => {
 
@@ -68,9 +69,11 @@ const ClientReservedServices = () => {
                 <Typography variant="h5" fontWeight={'bold'}>{props.service.serviceDto.name}</Typography>
             </Box>
             <ReservedServiceFieldRow fieldName={'Reserving date:'}
-                                     fieldValue={formatDateTime(props.service.createdDateTime)}/>
+                                     fieldValue={DateTimeUtilService.formatDateTime(props.service.createdDateTime)}
+            />
             <ReservedServiceFieldRow fieldName={'Training date:'}
-                                     fieldValue={formatDateTime(props.service.trainingStartDateTime)}/>
+                                     fieldValue={DateTimeUtilService.formatDateTime(props.service.trainingStartDateTime)}
+            />
             <ReservedServiceFieldRow fieldName={'Service price:'} fieldValue={props.service.serviceDto.price + ' $'}/>
             <ReservedServiceFieldRow fieldName={'Service status:'} fieldValue={props.service.orderStatus}/>
         </Grid>
@@ -102,22 +105,6 @@ const ClientReservedServices = () => {
                 if (page !== null) props.setPage(page - PAGE_OFFSET);
             }}
         />;
-    }
-
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
     }
 
     return (

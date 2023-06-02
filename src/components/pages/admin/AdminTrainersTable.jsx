@@ -14,7 +14,6 @@ import EmptyListCard from "../error/EmptyListCard";
 import Button from "@mui/material/Button";
 import TrainerService from "../../../service/TrainerService";
 import Forbidden from "../error/Forbidden";
-import ServiceService from "../../../service/ServiceService";
 import Box from "@mui/material/Box";
 
 const AdminTrainersTable = () => {
@@ -22,7 +21,6 @@ const AdminTrainersTable = () => {
     const ADMIN_ROLE = 'ADMIN';
     const [role, setRole] = useState();
     const [trainers, setTrainers] = useState([]);
-    const [selectedTrainerId, setSelectedTrainerId] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(10);

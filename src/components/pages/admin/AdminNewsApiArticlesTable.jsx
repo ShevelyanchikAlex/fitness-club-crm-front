@@ -17,6 +17,7 @@ import Forbidden from "../error/Forbidden";
 import NewsArticleService from "../../../service/NewsArticleService";
 import Box from "@mui/material/Box";
 import AdminNewsArticleInfoDialog from "./form/news/AdminNewsArticleInfoDialog";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const AdminNewsApiArticlesTable = () => {
     const navigate = useNavigate();
@@ -95,23 +96,6 @@ const AdminNewsApiArticlesTable = () => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
-
     return (isLoading ? <CircularProgress/> :
         ((role && role === ADMIN_ROLE)
             ? ((newsArticles.length === 0) ? <EmptyListCard/> :
@@ -150,8 +134,9 @@ const AdminNewsApiArticlesTable = () => {
                                                 ? newsArticle.url
                                                 : (newsArticle.url.substr(0, 40) + "...")) : 'none'}
                                         </TableCell>
-                                        <TableCell
-                                            align="center">{formatDateTime(newsArticle.createdDateTime)}</TableCell>
+                                        <TableCell align="center">
+                                            {DateTimeUtilService.formatDateTime(newsArticle.createdDateTime)}
+                                        </TableCell>
                                         <TableCell align="center">
                                             <Button
                                                 onClick={() => {

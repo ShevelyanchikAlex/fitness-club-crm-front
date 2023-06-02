@@ -13,6 +13,7 @@ import EmptyListCard from "../error/EmptyListCard";
 import TrainerService from "../../../service/TrainerService";
 import Forbidden from "../error/Forbidden";
 import ScheduleService from "../../../service/ScheduleService";
+import DateTimeUtilService from "../../../service/DateTimeUtilService";
 
 const TrainerScheduleTable = () => {
 
@@ -64,22 +65,6 @@ const TrainerScheduleTable = () => {
         setPage(0);
     }
 
-    function formatDateTime(dateTime) {
-        const datetime = new Date(dateTime);
-
-        const formattedDate = datetime.toLocaleDateString("de-DE", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-        });
-        const formattedTime = datetime.toLocaleTimeString("de-DE", {
-            hour12: false,
-            hour: "2-digit",
-            minute: "2-digit"
-        });
-        return `${formattedDate}  ${formattedTime}`;
-    }
-
     return (isLoading
         ? <CircularProgress/>
         : ((role && role === TRAINER_ROLE)
@@ -103,7 +88,9 @@ const TrainerScheduleTable = () => {
                                                 {schedule.id}
                                             </TableCell>
                                             <TableCell align="center">{schedule.serviceDto.name}</TableCell>
-                                            <TableCell align="center">{formatDateTime(schedule.trainingStartDateTime)}</TableCell>
+                                            <TableCell align="center">
+                                                {DateTimeUtilService.formatDateTime(schedule.trainingStartDateTime)}
+                                            </TableCell>
                                             <TableCell align="center">{schedule.serviceType}</TableCell>
                                             <TableCell align="center">{schedule.availableSpots}</TableCell>
                                         </TableRow>
